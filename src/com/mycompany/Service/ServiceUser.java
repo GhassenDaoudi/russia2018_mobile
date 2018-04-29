@@ -11,7 +11,6 @@ import com.codename1.io.JSONParser;
 import com.codename1.io.NetworkEvent;
 import com.codename1.io.NetworkManager;
 import com.codename1.ui.events.ActionListener;
-import com.mycompany.Entite.Publication;
 import com.mycompany.Entite.User;
 import com.mycompany.Utilitaire.Parser;
 import com.mycompany.Utilitaire.Session;
@@ -44,6 +43,8 @@ public class ServiceUser {
 
             }
         });
+        
+        //con.setDisposeOnCompletion(dlg);*/
         NetworkManager.getInstance().addToQueueAndWait(con);
     }
     public static List<User> getAll() {
@@ -68,4 +69,27 @@ public class ServiceUser {
         NetworkManager.getInstance().addToQueueAndWait(con);
         return users;
     }
+
+    public static void login(int test) {
+        ConnectionRequest con = new ConnectionRequest();
+        con.setUrl("http://localhost/RS2018/web/user/get/"+test);
+        con.addResponseListener(new ActionListener<NetworkEvent>() {
+            @Override
+            public void actionPerformed(NetworkEvent evt) {
+                JSONParser jsonp = new JSONParser();                
+                try {
+                    Map<String, Object> jsonUser = jsonp.parseJSON(new CharArrayReader(new String(con.getResponseData()).toCharArray()));
+                    if(jsonUser.get("user")!=null){
+                        Session.setUser(Parser.toUser(jsonUser.get("user")));
+                    }else{
+                        Session.setUser(null);
+                    }
+                } catch (IOException | NumberFormatException e) {
+                }
+
+            }
+        });        
+        NetworkManager.getInstance().addToQueueAndWait(con);
+    }
+    
 }

@@ -7,7 +7,6 @@ package com.mycompany.gui;
 
 import com.codename1.components.SpanLabel;
 import com.codename1.components.ToastBar;
-import com.codename1.l10n.SimpleDateFormat;
 import com.codename1.ui.Button;
 import com.codename1.ui.Container;
 import com.codename1.ui.Font;

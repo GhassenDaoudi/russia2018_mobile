@@ -13,7 +13,9 @@ import com.codename1.ui.Toolbar;
 import com.codename1.ui.layouts.BorderLayout;
 import com.mycompany.gui.ArticleFormHome;
 import com.mycompany.gui.GalerieFormHome;
+import com.mycompany.gui.PariFormHome;
 import com.mycompany.gui.UserFormLogin;
+import com.mycompany.gui.UserFormPofile;
 
 /**
  *
@@ -30,18 +32,28 @@ public class Components {
             ArticleFormHome afh = new ArticleFormHome();
             afh.getForm().show();
         });
-        tb.addMaterialCommandToSideMenu("Galerie", FontImage.MATERIAL_GRADE, e -> {
+        tb.addMaterialCommandToSideMenu("Galerie", FontImage.MATERIAL_IMAGE, e -> {
             GalerieFormHome gfh = new GalerieFormHome();
             gfh.getForm().show();
 
         });
         if (Session.getUser() == null) {
-            tb.addMaterialCommandToSideMenu("Login", FontImage.MATERIAL_GRADE, e -> {
+            tb.addMaterialCommandToSideMenu("Login", FontImage.MATERIAL_SAVE, e -> {
                 UserFormLogin ufl = new UserFormLogin();
                 ufl.getForm().show();
             });
         } else {
-            tb.addMaterialCommandToSideMenu("Logout", FontImage.MATERIAL_GRADE, e -> {
+            tb.addMaterialCommandToSideMenu("Parier !", FontImage.MATERIAL_EURO_SYMBOL, e -> {
+                PariFormHome pfh = new PariFormHome();
+                pfh.getF().show();
+            });
+            tb.addMaterialCommandToSideMenu("Profile", FontImage.MATERIAL_UPDATE, e -> {
+                UserFormPofile ufp= new UserFormPofile();
+                ufp.getForm().show();
+            });
+            tb.addMaterialCommandToSideMenu("Logout", FontImage.MATERIAL_REMOVE, e -> {
+                //DataBase db = new DataBase();
+                //db.clearUser();
                 Session.setUser(null);
                 ArticleFormHome afh = new ArticleFormHome();
                 afh.getForm().show();

@@ -6,6 +6,7 @@
 package com.mycompany.gui;
 
 import com.codename1.ui.Button;
+import com.codename1.ui.CheckBox;
 import com.codename1.ui.Form;
 import com.codename1.ui.Label;
 import com.codename1.ui.TextField;
@@ -15,6 +16,7 @@ import com.codename1.ui.layouts.BoxLayout;
 import com.mycompany.Entite.User;
 import com.mycompany.Service.ServiceUser;
 import com.mycompany.Utilitaire.Components;
+import com.mycompany.Utilitaire.DataBase;
 import com.mycompany.Utilitaire.Session;
 import java.util.List;
 
@@ -35,26 +37,36 @@ public class UserFormLogin {
         TextField password = new TextField();
         password.setConstraint(TextField.PASSWORD);
         password.setHint("Password");
+        CheckBox rememberMe = new CheckBox("Remember Me");
+        rememberMe.setSelected(true);
         Button login = new Button("Login");
         Label error = new Label("");
         error.setVisible(false);
         login.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent evt) {
-                ServiceUser.login(username.getText(), password.getText());
-                if (Session.getUser() != null) {
-                    ArticleFormHome afh = new ArticleFormHome();
-                    afh.getForm().show();
-                } else {
-                    UserFormLogin a = new UserFormLogin(new Label("Error"));
-                    a.getForm().show();
-
+                if (!username.getText().equals("") && !password.getText().equals("")) {
+                    ServiceUser.login(username.getText(), password.getText());
+                    if (Session.getUser() != null) {
+                        /*if (rememberMe.isSelected()) {
+                            DataBase db = new DataBase();
+                            db.persist(Session.getUser());
+                        } else {
+                            System.out.println("dont remember me");
+                        }*/
+                        ArticleFormHome afh = new ArticleFormHome();
+                        afh.getForm().show();
+                    } else {
+                        UserFormLogin a = new UserFormLogin(new Label("Error"));
+                        a.getForm().show();
+                    }
                 }
             }
         });
 
         this.form.add(username);
         this.form.add(password);
+        this.form.add(rememberMe);
         this.form.add(login);
         this.form.add(error);
 

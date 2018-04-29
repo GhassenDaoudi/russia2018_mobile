@@ -5,20 +5,25 @@
  */
 package com.mycompany.gui;
 
+import com.codename1.capture.Capture;
 import com.codename1.components.ImageViewer;
 import com.codename1.components.SpanLabel;
 import com.codename1.ui.BrowserComponent;
+import com.codename1.ui.Button;
 import com.codename1.ui.Container;
+import com.codename1.ui.Display;
 import com.codename1.ui.EncodedImage;
 import com.codename1.ui.Form;
 import com.codename1.ui.Image;
 import com.codename1.ui.Label;
+import com.codename1.ui.TextField;
 import com.codename1.ui.URLImage;
 import com.codename1.ui.layouts.BorderLayout;
 import com.codename1.ui.layouts.BoxLayout;
 import com.mycompany.Entite.Publication;
 import com.mycompany.Service.ServiceGalerie;
 import com.mycompany.Utilitaire.Components;
+import com.mycompany.Utilitaire.Session;
 import java.util.List;
 
 /**
@@ -29,13 +34,35 @@ public class GalerieFormHome {
 
     private Form form;
     private List<Publication> galerie;
-    private ServiceGalerie service;
+    private String filePath;
 
     public GalerieFormHome() {
-        this.service = new ServiceGalerie();
+        this.filePath = "";
         this.form = new Form("Galerie", BoxLayout.y());
-        this.galerie = this.service.afficher();
+        this.galerie = ServiceGalerie.afficher();
         Components.showHamburger(this.form);
+        if (Session.getUser() != null) {
+            TextField titre = new TextField();
+            titre.setHint("titre");
+            TextField description = new TextField();
+            description.setHint("description");
+            Button image = new Button("image");
+            Button ajouter = new Button("ajouter");
+            this.form.add(titre);
+            this.form.add(description);
+            
+            this.form.add(image);
+            this.form.add(ajouter);
+
+            image.addPointerPressedListener((e) -> {
+                filePath = Capture.capturePhoto(Display.getInstance().getDisplayWidth(), -1);
+            });
+            ajouter.addPointerPressedListener((t) -> {
+                if(!filePath.equals("")&&!titre.getText().equals("")&&!description.getText().equals("")){
+                    ServiceGalerie.ajouter(Session.getUser(),filePath,titre.getText(),description.getText());
+                }
+            });
+        }
         for (Publication g : this.galerie) {
             String youtube = "https://www.youtube.com/watch?v=";
             //LIEN:<iframe width="560" height="315" src="https://www.youtube.com/embed/0sYaz3TmIO4" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>

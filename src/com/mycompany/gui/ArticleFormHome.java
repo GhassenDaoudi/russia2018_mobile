@@ -155,8 +155,10 @@ public class ArticleFormHome {
     }
     private void updateRSS(Container rsscontainer) {
         rsscontainer.removeAll();
+        
         RSSService rss = new RSSService("https://talksport.com/rss/sports-news/football/feed");
         NetworkManager.getInstance().addToQueueAndWait(rss);
+        
         records = rss.getResults();
         for (Map m : records) {
             rsscontainer.addComponent(new SpanLabel((String) m.get("title")));
