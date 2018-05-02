@@ -12,6 +12,15 @@
     <image name="Button.dis#borderTop_1.png" type="multi"  />
     <image name="Button.dis#borderTopL_1.png" type="multi"  />
     <image name="Button.dis#borderTopR_1.png" type="multi"  />
+    <image name="buttonLD.borderBottom_1.png" type="multi"  />
+    <image name="buttonLD.borderBottomL_1.png" type="multi"  />
+    <image name="buttonLD.borderBottomR_1.png" type="multi"  />
+    <image name="buttonLD.borderCenter_1.png" type="multi"  />
+    <image name="buttonLD.borderLeft_1.png" type="multi"  />
+    <image name="buttonLD.borderRight_1.png" type="multi"  />
+    <image name="buttonLD.borderTop_1.png" type="multi"  />
+    <image name="buttonLD.borderTopL_1.png" type="multi"  />
+    <image name="buttonLD.borderTopR_1.png" type="multi"  />
     <image name="cal_left_arrow.png" type="multi"  />
     <image name="cal_right_arrow.png" type="multi"  />
     <image name="chbox1.png" type="multi"  />
@@ -43,6 +52,7 @@
     <image name="Dialog.borderTop_1.png" type="multi"  />
     <image name="Dialog.borderTopL_1.png" type="multi"  />
     <image name="Dialog.borderTopR_1.png" type="multi"  />
+    <image name="k.png"  />
     <image name="Menu.borderBottom_2.png" type="multi"  />
     <image name="Menu.borderBottomL_2.png" type="multi"  />
     <image name="Menu.borderBottomR_2.png" type="multi"  />
@@ -71,6 +81,10 @@
     <image name="switch_mask.png" type="multi"  />
     <image name="switch_off.png" type="multi"  />
     <image name="switch_on.png" type="multi"  />
+    <image name="SYSTEM_DislikeBlack.png"  />
+    <image name="SYSTEM_DislikeRed.png"  />
+    <image name="SYSTEM_LikeBlack.png"  />
+    <image name="SYSTEM_LikeBlue.png"  />
     <theme name="Theme">
         <val key="@PopupDialogArrowBool" value="false" />
         <val key="@calTitleDayStyleBool" value="true" />
@@ -428,6 +442,7 @@
         <font key="Label.sel#font" type="ttf" face="0" style="0" size="0" name="native:MainRegular" family="native:MainRegular" sizeSettings="3" actualSize="3.0" />
         <val key="Label.sel#transparency" value="0" />
         <val key="Label.transparency" value="0" />
+        <border key="LikeBlue.border" type="image" i1="buttonLD.borderTop_1.png" i2="buttonLD.borderBottom_1.png" i3="buttonLD.borderLeft_1.png" i4="buttonLD.borderRight_1.png" i5="buttonLD.borderTopL_1.png" i6="buttonLD.borderTopR_1.png" i7="buttonLD.borderBottomL_1.png" i8="buttonLD.borderBottomR_1.png" i9="buttonLD.borderCenter_1.png" />
         <val key="List.bgColor" value="ffffff" />
         <val key="List.margin" value="0.0,0.0,0.0,0.0" />
         <val key="List.padding" value="0.0,0.0,0.0,0.0" />

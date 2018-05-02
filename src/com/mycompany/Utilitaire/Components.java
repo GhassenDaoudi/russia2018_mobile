@@ -5,7 +5,10 @@
  */
 package com.mycompany.Utilitaire;
 
+import com.codename1.components.InfiniteProgress;
 import com.codename1.ui.Container;
+import com.codename1.ui.Dialog;
+import com.codename1.ui.Display;
 import com.codename1.ui.FontImage;
 import com.codename1.ui.Form;
 import com.codename1.ui.Label;
@@ -29,39 +32,55 @@ public class Components {
         topBar.setUIID("SideCommand");
         tb.addComponentToSideMenu(topBar);
         tb.addMaterialCommandToSideMenu("Home", FontImage.MATERIAL_HOME, e -> {
+            InfiniteProgress prog = new InfiniteProgress();
+            Dialog dlg = prog.showInifiniteBlocking();
             ArticleFormHome afh = new ArticleFormHome();
+            dlg.dispose();
             afh.getForm().show();
         });
         tb.addMaterialCommandToSideMenu("Galerie", FontImage.MATERIAL_IMAGE, e -> {
+            InfiniteProgress prog = new InfiniteProgress();
+            Dialog dlg = prog.showInifiniteBlocking();
             GalerieFormHome gfh = new GalerieFormHome();
+            dlg.dispose();
             gfh.getForm().show();
 
         });
         if (Session.getUser() == null) {
             tb.addMaterialCommandToSideMenu("Login", FontImage.MATERIAL_SAVE, e -> {
+                InfiniteProgress prog = new InfiniteProgress();
+                Dialog dlg = prog.showInifiniteBlocking();
                 UserFormLogin ufl = new UserFormLogin();
+                dlg.dispose();
                 ufl.getForm().show();
             });
         } else {
             tb.addMaterialCommandToSideMenu("Parier !", FontImage.MATERIAL_EURO_SYMBOL, e -> {
+                InfiniteProgress prog = new InfiniteProgress();
+                Dialog dlg = prog.showInifiniteBlocking();
                 PariFormHome pfh = new PariFormHome();
+                dlg.dispose();
                 pfh.getF().show();
             });
             tb.addMaterialCommandToSideMenu("Profile", FontImage.MATERIAL_UPDATE, e -> {
-                UserFormPofile ufp= new UserFormPofile();
+                InfiniteProgress prog = new InfiniteProgress();
+                Dialog dlg = prog.showInifiniteBlocking();
+                UserFormPofile ufp = new UserFormPofile();
+                dlg.dispose();
                 ufp.getForm().show();
             });
             tb.addMaterialCommandToSideMenu("Logout", FontImage.MATERIAL_REMOVE, e -> {
-                //DataBase db = new DataBase();
-                //db.clearUser();
+                InfiniteProgress prog = new InfiniteProgress();
+                Dialog dlg = prog.showInifiniteBlocking();
                 Session.setUser(null);
                 ArticleFormHome afh = new ArticleFormHome();
+                dlg.dispose();
                 afh.getForm().show();
             });
         }
     }
 
-    public static void showBack(Form current,Form prev) {
+    public static void showBack(Form current, Form prev) {
         Toolbar tb = current.getToolbar();
         tb.addMaterialCommandToLeftBar("Back", FontImage.MATERIAL_ARROW_BACK, e -> {
             prev.showBack();

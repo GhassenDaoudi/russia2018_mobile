@@ -7,10 +7,8 @@ import com.codename1.ui.Dialog;
 import com.codename1.ui.plaf.UIManager;
 import com.codename1.ui.util.Resources;
 import com.codename1.io.Log;
+import com.codename1.ui.Image;
 import com.codename1.ui.Toolbar;
-import com.mycompany.Entite.User;
-import com.mycompany.Service.ServiceUser;
-import com.mycompany.Utilitaire.DataBase;
 import com.mycompany.gui.ArticleFormHome;
 
 /**
@@ -52,27 +50,11 @@ public class MyApplication {
             return;
         }
         InfiniteProgress prog = new InfiniteProgress();
+        prog.setAnimation(theme.getImage("k.png"));
         Dialog dlg = prog.showInifiniteBlocking();
-        //DataBase db = new DataBase();
-        //User t = new User();
-        //t.setId(6);
-        //db.clearUser();
-        //db.persist(t);
-        //int test = db.findUser();
-        //System.out.println(test);
-        /*if (test != -1) {
-            ServiceUser.login(test);
-        }*/
         ArticleFormHome afh = new ArticleFormHome();
         dlg.dispose();
         afh.getForm().show();
-        
-
-        //UserFormLogin ufl = new UserFormLogin();
-        //ufl.getForm().show();
-        //GalerieFormHome gfh = new GalerieFormHome();
-        //gfh.getForm().show();
-        //System.out.println(TwitterAPI.searchtweets("russia", 5));
     }
 
     public void stop() {
