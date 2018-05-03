@@ -5,6 +5,7 @@
  */
 package com.mycompany.gui;
 
+import com.codename1.io.Storage;
 import com.codename1.ui.Button;
 import com.codename1.ui.CheckBox;
 import com.codename1.ui.Form;
@@ -16,7 +17,6 @@ import com.codename1.ui.layouts.BoxLayout;
 import com.mycompany.Entite.User;
 import com.mycompany.Service.ServiceUser;
 import com.mycompany.Utilitaire.Components;
-import com.mycompany.Utilitaire.DataBase;
 import com.mycompany.Utilitaire.Session;
 import java.util.List;
 
@@ -46,14 +46,14 @@ public class UserFormLogin {
             @Override
             public void actionPerformed(ActionEvent evt) {
                 if (!username.getText().equals("") && !password.getText().equals("")) {
+
                     ServiceUser.login(username.getText(), password.getText());
                     if (Session.getUser() != null) {
-                        /*if (rememberMe.isSelected()) {
-                            DataBase db = new DataBase();
-                            db.persist(Session.getUser());
+                        if (rememberMe.isSelected()) {
+                            Storage.getInstance().writeObject("idUser", String.valueOf(Session.getUser().getId()));
                         } else {
-                            System.out.println("dont remember me");
-                        }*/
+                            Storage.getInstance().writeObject("idUser", "-1");   
+                        }
                         ArticleFormHome afh = new ArticleFormHome();
                         afh.getForm().show();
                     } else {
@@ -63,7 +63,6 @@ public class UserFormLogin {
                 }
             }
         });
-
         this.form.add(username);
         this.form.add(password);
         this.form.add(rememberMe);

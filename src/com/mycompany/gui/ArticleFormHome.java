@@ -42,12 +42,13 @@ public class ArticleFormHome {
     public ArticleFormHome() {
         this.form = new Form("Russia 2018", BoxLayout.y());
         Container actualite = new Container(new BoxLayout(BoxLayout.Y_AXIS));
+        Container mesArticles = new Container(new BoxLayout(BoxLayout.Y_AXIS));
         Container twitter = new Container(new BoxLayout(BoxLayout.Y_AXIS));
         Container RSS = new Container(new BoxLayout(BoxLayout.Y_AXIS));
         updateRSS(RSS);
         updateArticle(actualite);
         updateTwitter(twitter);
-        
+
         Components.showHamburger(this.form);
         Tabs tb = new Tabs() {
             @Override
@@ -78,10 +79,13 @@ public class ArticleFormHome {
         };
         tb.setTabUIID(null);
         tb.addTab("Actualite", actualite);
+        //if(Session.getUser()!=null){
+
+        //}
         tb.addTab("Twitter", twitter);
         tb.addTab("RSS", RSS);
         tb.getTabsContainer().setScrollableX(false);
-        this.form.add( tb);
+        this.form.add(tb);
         this.form.getContentPane().addPullToRefresh(new Runnable() {
             @Override
             public void run() {
@@ -100,6 +104,7 @@ public class ArticleFormHome {
     public void setForm(Form form) {
         this.form = form;
     }
+
     private void updateRSS(Container rsscontainer) {
         /*rsscontainer.removeAll();
         
@@ -115,7 +120,7 @@ public class ArticleFormHome {
 
     private void updateArticle(Container articleContainer) {
         articleContainer.removeAll();
-        if(Session.getUser()!=null){
+        if (Session.getUser() != null) {
             Container c100 = new Container(new BoxLayout(BoxLayout.Y_AXIS));
             TextField titre = new TextField();
             titre.setHint("titre");
@@ -126,9 +131,9 @@ public class ArticleFormHome {
             c100.add(description);
             c100.add(ajouter);
             articleContainer.add(c100);
-            ajouter.addPointerPressedListener((e)->{
-                if(!description.getText().equals("")&&!titre.getText().equals("")){
-                    ServiceArticle.ajouter(Session.getUser(),titre.getText(),description.getText());
+            ajouter.addPointerPressedListener((e) -> {
+                if (!description.getText().equals("") && !titre.getText().equals("")) {
+                    ServiceArticle.ajouter(Session.getUser(), titre.getText(), description.getText());
                     ToastBar.Status status = ToastBar.getInstance().createStatus();
                     status.setMessage("Article Ajouté");
                     status.setExpires(3000);
@@ -141,8 +146,8 @@ public class ArticleFormHome {
             Container c1 = new Container(new BoxLayout(BoxLayout.Y_AXIS));
             Container ctitre = new Container(new BorderLayout(BorderLayout.CENTER_BEHAVIOR_CENTER));
             Label titre = new Label(p.getTitre());
-            titre.addPointerPressedListener((e)->{
-                CommentaireFormHome cfh = new CommentaireFormHome(p ,this.form);
+            titre.addPointerPressedListener((e) -> {
+                CommentaireFormHome cfh = new CommentaireFormHome(p, this.form);
                 cfh.getForm().show();
             });
             ctitre.add(BorderLayout.CENTER, titre);

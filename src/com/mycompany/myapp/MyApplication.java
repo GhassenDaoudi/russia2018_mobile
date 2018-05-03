@@ -7,8 +7,10 @@ import com.codename1.ui.Dialog;
 import com.codename1.ui.plaf.UIManager;
 import com.codename1.ui.util.Resources;
 import com.codename1.io.Log;
-import com.codename1.ui.Image;
+import com.codename1.io.Storage;
 import com.codename1.ui.Toolbar;
+import com.mycompany.Service.ServiceChat;
+import com.mycompany.Service.ServiceUser;
 import com.mycompany.gui.ArticleFormHome;
 
 /**
@@ -50,8 +52,16 @@ public class MyApplication {
             return;
         }
         InfiniteProgress prog = new InfiniteProgress();
+        Storage.getInstance().clearCache();
         prog.setAnimation(theme.getImage("k.png"));
         Dialog dlg = prog.showInifiniteBlocking();
+        String idUser = (String)Storage.getInstance().readObject("idUser");
+        if(idUser!=null){
+            int test = Integer.parseInt(idUser);
+            if(test!=-1){
+                ServiceUser.login(test);
+            }
+        }
         ArticleFormHome afh = new ArticleFormHome();
         dlg.dispose();
         afh.getForm().show();

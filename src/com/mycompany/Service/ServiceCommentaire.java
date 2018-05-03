@@ -98,9 +98,6 @@ public class ServiceCommentaire {
                     Map<String, Object> ld = jsonp.parseJSON(new CharArrayReader(new String(con.getResponseData()).toCharArray()));                    
                     p.add((int)Float.parseFloat(ld.get("nl").toString()));
                     p.add((int)Float.parseFloat(ld.get("nd").toString()));
-                    //lol[0]=5;
-                    //lol[1]=2;
-                    //lel=ld.get("test").toString();
                 } catch (IOException ex) {
                 }
             }

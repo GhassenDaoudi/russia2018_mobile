@@ -42,9 +42,7 @@ public class ServiceUser {
                 }
 
             }
-        });
-        
-        //con.setDisposeOnCompletion(dlg);*/
+        });        
         NetworkManager.getInstance().addToQueueAndWait(con);
     }
     public static List<User> getAll() {

@@ -6,15 +6,16 @@
 package com.mycompany.Utilitaire;
 
 import com.codename1.components.InfiniteProgress;
+import com.codename1.io.Storage;
 import com.codename1.ui.Container;
 import com.codename1.ui.Dialog;
-import com.codename1.ui.Display;
 import com.codename1.ui.FontImage;
 import com.codename1.ui.Form;
 import com.codename1.ui.Label;
 import com.codename1.ui.Toolbar;
 import com.codename1.ui.layouts.BorderLayout;
 import com.mycompany.gui.ArticleFormHome;
+import com.mycompany.gui.ChatFormHome;
 import com.mycompany.gui.GalerieFormHome;
 import com.mycompany.gui.PariFormHome;
 import com.mycompany.gui.UserFormLogin;
@@ -46,6 +47,7 @@ public class Components {
             gfh.getForm().show();
 
         });
+
         if (Session.getUser() == null) {
             tb.addMaterialCommandToSideMenu("Login", FontImage.MATERIAL_SAVE, e -> {
                 InfiniteProgress prog = new InfiniteProgress();
@@ -55,6 +57,14 @@ public class Components {
                 ufl.getForm().show();
             });
         } else {
+            tb.addMaterialCommandToSideMenu("Chat", FontImage.MATERIAL_IMAGE, e -> {
+                InfiniteProgress prog = new InfiniteProgress();
+                Dialog dlg = prog.showInifiniteBlocking();
+                ChatFormHome cfh = new ChatFormHome();
+                dlg.dispose();
+                cfh.getForm().show();
+
+            });
             tb.addMaterialCommandToSideMenu("Parier !", FontImage.MATERIAL_EURO_SYMBOL, e -> {
                 InfiniteProgress prog = new InfiniteProgress();
                 Dialog dlg = prog.showInifiniteBlocking();
@@ -72,6 +82,7 @@ public class Components {
             tb.addMaterialCommandToSideMenu("Logout", FontImage.MATERIAL_REMOVE, e -> {
                 InfiniteProgress prog = new InfiniteProgress();
                 Dialog dlg = prog.showInifiniteBlocking();
+                Storage.getInstance().writeObject("idUser", "-1"); 
                 Session.setUser(null);
                 ArticleFormHome afh = new ArticleFormHome();
                 dlg.dispose();

@@ -22,8 +22,6 @@ import com.codename1.ui.URLImage;
 import com.codename1.ui.layouts.BorderLayout;
 import com.codename1.ui.layouts.BoxLayout;
 import com.codename1.ui.layouts.FlowLayout;
-import com.codename1.ui.plaf.Border;
-import com.codename1.ui.plaf.Style;
 import com.codename1.ui.plaf.UIManager;
 import com.codename1.ui.util.Resources;
 import com.mycompany.Entite.Publication;
@@ -43,12 +41,15 @@ public class GalerieFormHome {
     private List<Publication> galerie;
     private String filePath;
     private Resources theme;
+    private String fileExt;
 
     public GalerieFormHome() {
         theme = UIManager.initFirstTheme("/theme");
         this.filePath = "";
+        this.fileExt = "";
         this.form = new Form("Galerie", BoxLayout.y());
         this.galerie = ServiceGalerie.afficher();
+        Container conatinergal=new Container();
         Components.showHamburger(this.form);
         if (Session.getUser() != null) {
             TextField titre = new TextField();
@@ -56,26 +57,29 @@ public class GalerieFormHome {
             TextField description = new TextField();
             description.setHint("description");
             Button image = new Button("image");
+            Button camera = new Button("fromCamera");
+            Button gal = new Button("fromGalerie");
             Button ajouter = new Button("ajouter");
             this.form.add(titre);
             this.form.add(description);
-
             this.form.add(image);
             this.form.add(ajouter);
-
             image.addPointerPressedListener((e) -> {
                 filePath = Capture.capturePhoto(Display.getInstance().getDisplayWidth(), -1);
+                int i = filePath.lastIndexOf('.');
+                fileExt = filePath.substring(i);
             });
             ajouter.addPointerPressedListener((t) -> {
-                if (!filePath.equals("") && !titre.getText().equals("") && !description.getText().equals("")) {
-                    ServiceGalerie.ajouter(Session.getUser(), filePath, titre.getText(), description.getText());
+                if (!fileExt.equals("") && !filePath.equals("") && !titre.getText().equals("") && !description.getText().equals("")) {
+                    ServiceGalerie.ajouter(Session.getUser(), filePath, titre.getText(), description.getText(), fileExt);
+                    updateGalerie(conatinergal);
+                    form.revalidate();
                 }
             });
         }
-        this.galerie = ServiceCommentaire.getLikeDislike(this.galerie);
-        for (Publication g : this.galerie) {
-            this.form.add(createLikeDislikeWidget(g));
-        }
+        updateGalerie(conatinergal);
+        this.form.add(conatinergal);
+        
 
     }
 
@@ -131,14 +135,14 @@ public class GalerieFormHome {
 
         if (Session.getUser() != null) {
             like.addActionListener((e) -> {
-                List<Integer> p=ServiceCommentaire.ajouterCommentaire("like",Session.getUser(),g);
+                List<Integer> p = ServiceCommentaire.ajouterCommentaire("like", Session.getUser(), g);
                 labelLike.setText(p.get(0).toString());
                 labeDislike.setText(p.get(1).toString());
                 form.revalidate();
                 //form.show();
             });
             dislike.addActionListener((e) -> {
-                List<Integer> p=ServiceCommentaire.ajouterCommentaire("dislike",Session.getUser(),g);
+                List<Integer> p = ServiceCommentaire.ajouterCommentaire("dislike", Session.getUser(), g);
                 labelLike.setText(p.get(0).toString());
                 labeDislike.setText(p.get(1).toString());
                 form.revalidate();
@@ -146,22 +150,16 @@ public class GalerieFormHome {
         }
 
         test.add(labelLike).add(like).add(dislike).add(labeDislike);
-        //s.setOpacity(100);
-        //s.setFgColor(0);
-        //initStarRankStyle(starRank.getSliderEmptySelectedStyle(), likeblue);
-        //initStarRankStyle(starRank.getSliderEmptyUnselectedStyle(), likeback);
-        //initStarRankStyle(starRank.getSliderFullSelectedStyle(), dislikeback);
-        //initStarRankStyle(starRank.getSliderFullUnselectedStyle(), dislikered);
-        //starRank.setPreferredSize(new Dimension(likeback.getWidth() * 2, likeback.getHeight()));
 
         return test;
     }
 
-    private void initStarRankStyle(Style s, Image star) {
-        s.setBackgroundType(Style.BACKGROUND_IMAGE_TILE_BOTH);
-        s.setBorder(Border.createEmpty());
-        s.setBgImage(star);
-        s.setBgTransparency(0);
+    private void updateGalerie(Container conatinergal) {
+        conatinergal.removeAll();
+        this.galerie = ServiceCommentaire.getLikeDislike(this.galerie);
+        for (Publication g : this.galerie) {
+            conatinergal.add(createLikeDislikeWidget(g));
+        }
     }
 
 }
