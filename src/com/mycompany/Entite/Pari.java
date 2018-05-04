@@ -16,7 +16,7 @@ public class Pari {
 
     public enum EtatPari {
         Encours, Gagne, Perdu
-    }
+    };
 
     public enum ResultatPari {
         un, x, deux
@@ -26,7 +26,10 @@ public class Pari {
     private float cote;
     private float mise;
     private FichePari fp;
-    private Float gain;
+    private Label gain;
+    private String nom1;
+    private String nom2;
+    private TextField tf;
     private int type;
     private EtatPari etat;
     private ResultatPari resultat;
@@ -47,7 +50,9 @@ public class Pari {
         this.etat = etat;
     }
 
-  
+    public TextField getTf() {
+        return tf;
+    }
 
     public int getType() {
         return type;
@@ -57,16 +62,35 @@ public class Pari {
         this.type = type;
     }
 
-    
-   
+    public void setTf(TextField tf) {
+        this.tf = tf;
+    }
 
-   
+    public void setTf(String tf) {
+        this.tf = new TextField(tf);
+    }
 
-    public Float getGain() {
+    public String getNom1() {
+        return nom1;
+    }
+
+    public void setNom1(String nom1) {
+        this.nom1 = nom1;
+    }
+
+    public String getNom2() {
+        return nom2;
+    }
+
+    public void setNom2(String nom2) {
+        this.nom2 = nom2;
+    }
+
+    public Label getGain() {
         return gain;
     }
 
-    public void setGain(Float gain) {
+    public void setGain(Label gain) {
         this.gain = gain;
     }
 
@@ -97,15 +121,21 @@ public class Pari {
     public Pari() {
         this.fp = new FichePari();
         this.m = new Match();
-       
+        this.tf = new TextField("");
+        this.gain = new Label();
 
     }
 
-    public Pari(String a, String b, Float cote, String tf,Float gain, int id,Pari.ResultatPari resultat) {
+    public Pari(String a, String b, Float cote, String tf, Label gain, int id,Pari.ResultatPari resultat) {
+        this.gain = new Label();
         this.fp = new FichePari();
         this.m = new Match();
+        this.setNom1(a);
+        this.setNom2(b);
         this.cote = cote;
         this.gain = gain;
+        this.tf = new TextField(tf);
+        this.getTf().setText(tf);
         this.id = id;
         this.resultat = resultat;
         //System.out.println(this.getTf().getText());
@@ -128,13 +158,19 @@ public class Pari {
         this.cote = cote;
     }
 
-    @Override
-    public String toString() {
-        return "Pari{" + "id=" + id + ", m=" + m + ", cote=" + cote + ", mise=" + mise + ", fp=" + fp + ", gain=" + gain + ", type=" + type + ", etat=" + etat + ", resultat=" + resultat + '}';
+    public String toString1() {
+        return this.getM().getE1().getNom() + "      " + this.getM().getE2().getNom();
     }
 
- 
-    
+    public String toStringPdf() {
+        return "    " + this.getNom1() + "      " + this.nom2 + "       " + this.getCote() + "      " + this.getMise() + "      " + this.getGain().getText();
+    }
+
+    @Override
+    public String toString() {
+        return "Pari{" + "id=" + id +  ", cote=" + cote + ", mise=" + mise + ", fp=" + fp + ", gain=" + gain + ", nom1=" + nom1 + ", nom2=" + nom2 + ", tf=" + tf + ", type=" + type + ", etat=" + etat + ", resultat=" + resultat + '}';
+    }
+
     @Override
     public int hashCode() {
      
