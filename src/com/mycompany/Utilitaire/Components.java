@@ -11,13 +11,21 @@ import com.codename1.ui.Container;
 import com.codename1.ui.Dialog;
 import com.codename1.ui.FontImage;
 import com.codename1.ui.Form;
+import com.codename1.ui.Image;
 import com.codename1.ui.Label;
 import com.codename1.ui.Toolbar;
 import com.codename1.ui.layouts.BorderLayout;
+import com.codename1.ui.plaf.UIManager;
+import com.codename1.ui.util.Resources;
 import com.mycompany.gui.ArticleFormHome;
 import com.mycompany.gui.ChatFormHome;
+import com.mycompany.gui.CountForm;
 import com.mycompany.gui.GalerieFormHome;
+import com.mycompany.gui.GroupesForm;
+import com.mycompany.gui.MatchsForm;
+import com.mycompany.gui.PHFForm;
 import com.mycompany.gui.PariFormHome;
+import com.mycompany.gui.StadesForm;
 import com.mycompany.gui.UserFormLogin;
 import com.mycompany.gui.UserFormPofile;
 
@@ -29,7 +37,9 @@ public class Components {
 
     public static void showHamburger(Form current) {
         Toolbar tb = current.getToolbar();
-        Container topBar = BorderLayout.centerAbsolute(new Label("Russia 2018"));
+        Resources theme = UIManager.initFirstTheme("/theme");
+        Image icon= theme.getImage("logoo.png");
+        Container topBar = BorderLayout.centerAbsolute(new Label(icon));
         topBar.setUIID("SideCommand");
         tb.addComponentToSideMenu(topBar);
         tb.addMaterialCommandToSideMenu("Home", FontImage.MATERIAL_HOME, e -> {
@@ -47,9 +57,44 @@ public class Components {
             gfh.getForm().show();
 
         });
+        /*tb.addMaterialCommandToSideMenu("Count", FontImage.MATERIAL_HOME, e -> {
+            InfiniteProgress prog = new InfiniteProgress();
+            Dialog dlg = prog.showInifiniteBlocking();
+            CountForm C = new CountForm();
+            dlg.dispose();
+            C.getF().show();
+        });*/
+        tb.addMaterialCommandToSideMenu("Matchs", FontImage.MATERIAL_GRADE, e -> {
+            InfiniteProgress prog = new InfiniteProgress();
+            Dialog dlg = prog.showInifiniteBlocking();
+            MatchsForm Ma = new MatchsForm();
+            dlg.dispose();
+            Ma.getM().show();
+        });
+        tb.addMaterialCommandToSideMenu("Groupes", FontImage.MATERIAL_GROUP, e -> {
+            InfiniteProgress prog = new InfiniteProgress();
+            Dialog dlg = prog.showInifiniteBlocking();
+            GroupesForm Gr = new GroupesForm();
+            dlg.dispose();
+            Gr.getF().show();
+        });
+        tb.addMaterialCommandToSideMenu("Stades", FontImage.MATERIAL_LOCATION_ON, e -> {
+            InfiniteProgress prog = new InfiniteProgress();
+            Dialog dlg = prog.showInifiniteBlocking();
+            StadesForm st = new StadesForm();
+            dlg.dispose();
+            st.getF().show();
+        });
+        tb.addMaterialCommandToSideMenu("Phase Finale", FontImage.MATERIAL_BLUR_ON, e -> {
+            InfiniteProgress prog = new InfiniteProgress();
+            Dialog dlg = prog.showInifiniteBlocking();
+            PHFForm P = new PHFForm();
+            dlg.dispose();
+            P.getF().show();
+        });
 
         if (Session.getUser() == null) {
-            tb.addMaterialCommandToSideMenu("Login", FontImage.MATERIAL_SAVE, e -> {
+            tb.addMaterialCommandToSideMenu("Login", FontImage.MATERIAL_EXIT_TO_APP, e -> {
                 InfiniteProgress prog = new InfiniteProgress();
                 Dialog dlg = prog.showInifiniteBlocking();
                 UserFormLogin ufl = new UserFormLogin();
@@ -57,7 +102,7 @@ public class Components {
                 ufl.getForm().show();
             });
         } else {
-            tb.addMaterialCommandToSideMenu("Chat", FontImage.MATERIAL_IMAGE, e -> {
+            tb.addMaterialCommandToSideMenu("Chat", FontImage.MATERIAL_PEOPLE, e -> {
                 InfiniteProgress prog = new InfiniteProgress();
                 Dialog dlg = prog.showInifiniteBlocking();
                 ChatFormHome cfh = new ChatFormHome();
@@ -82,7 +127,7 @@ public class Components {
             tb.addMaterialCommandToSideMenu("Logout", FontImage.MATERIAL_REMOVE, e -> {
                 InfiniteProgress prog = new InfiniteProgress();
                 Dialog dlg = prog.showInifiniteBlocking();
-                Storage.getInstance().writeObject("idUser", "-1"); 
+                Storage.getInstance().writeObject("idUser", "-1");
                 Session.setUser(null);
                 ArticleFormHome afh = new ArticleFormHome();
                 dlg.dispose();

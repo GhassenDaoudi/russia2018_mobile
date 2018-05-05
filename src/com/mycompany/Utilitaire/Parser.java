@@ -8,7 +8,6 @@ package com.mycompany.Utilitaire;
 import com.codename1.l10n.ParseException;
 import com.codename1.l10n.SimpleDateFormat;
 import com.mycompany.Entite.Commentaire;
-import com.mycompany.Entite.FichePari;
 import com.mycompany.Entite.Publication;
 import com.mycompany.Entite.User;
 import java.util.Date;

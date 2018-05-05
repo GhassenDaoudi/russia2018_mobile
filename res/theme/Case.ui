@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<component type="Form" name="Case" cloudDestinationProperty="Case" uiid="Form_1" >
+  <component type="Container" name="Container" cloudDestinationProperty="Container" uiid="CaseMatch" scrollableY="false" layout="FlowLayout" flowLayoutFillRows="true" flowLayoutAlign="4" flowLayoutValign="4" >
+    <component type="Label" name="Label" cloudDestinationProperty="Label" uiid="CaseMatch" text="Label" >
+    </component>
+    <component type="TextField" name="TextField" cloudBoundProperty="text" cloudDestinationProperty="TextField" text="TextField" >
+    </component>
+  </component>
+</component>

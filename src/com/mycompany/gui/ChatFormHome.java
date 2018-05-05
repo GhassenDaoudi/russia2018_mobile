@@ -72,7 +72,8 @@ public class ChatFormHome {
     private void updateChat(Container chatContainer) {
         chatContainer.removeAll();
         List<String> chat = ServiceChat.removeHtml();
-        if(chat.size()>8){
+        int nbr = (int )(Display.getInstance().getDisplayHeight()-50)/30;
+        if(chat.size()>nbr){
             chat=chat.subList(chat.size()-8, chat.size());
         }
         for (String string : chat) {

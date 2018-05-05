@@ -10,6 +10,7 @@ import com.codename1.components.ImageViewer;
 import com.codename1.components.SpanLabel;
 import com.codename1.ui.BrowserComponent;
 import com.codename1.ui.Button;
+import com.codename1.ui.Component;
 import com.codename1.ui.Container;
 import com.codename1.ui.Display;
 import com.codename1.ui.EncodedImage;
@@ -48,8 +49,8 @@ public class GalerieFormHome {
         this.filePath = "";
         this.fileExt = "";
         this.form = new Form("Galerie", BoxLayout.y());
-        this.galerie = ServiceGalerie.afficher();
-        Container conatinergal=new Container();
+        
+        Container conatinergal=new Container(new BoxLayout(BoxLayout.Y_AXIS));
         Components.showHamburger(this.form);
         if (Session.getUser() != null) {
             TextField titre = new TextField();
@@ -77,10 +78,40 @@ public class GalerieFormHome {
                 }
             });
         }
+        this.form.getToolbar().addSearchCommand(e -> {
+            String text = (String) e.getSource();
+            if (text == null || text.length() == 0) {
+                for (Component cmp : conatinergal) {
+                    cmp.setHidden(false);
+                    cmp.setVisible(true);
+                }
+                conatinergal.animateLayout(150);
+            } else {
+                text = text.toLowerCase();
+                int i = 0;
+                if (Session.getUser() != null) {
+                    i = 1;
+                }
+                for (int j=i; j < conatinergal.getComponentCount(); j++) {
+                    Container c =(Container)conatinergal.getComponentAt(j);
+                    SwipeableContainer sc = (SwipeableContainer)c.getComponentAt(0);
+                    Container test3 =(Container)sc.getComponentAt(2);
+                    Container test4 = (Container)test3.getComponentAt(0);
+                    Container test5 = (Container)test4.getComponentAt(0);
+                    Container test6 = (Container)test4.getComponentAt(2);
+                    Label titre = (Label)test5.getComponentAt(0);
+                    SpanLabel desc = (SpanLabel)test6.getComponentAt(0);
+                    String line1 = titre.getText();
+                    String line2 = desc.getText();
+                    boolean show = line1.toLowerCase().contains(text) || line2.toLowerCase().contains(text);
+                    c.setHidden(!show);
+                    c.setVisible(show);
+                }
+                conatinergal.animateLayout(150);
+            }
+        }, 4);
         updateGalerie(conatinergal);
         this.form.add(conatinergal);
-        
-
     }
 
     public SwipeableContainer createLikeDislikeWidget(Publication g) {
@@ -122,9 +153,7 @@ public class GalerieFormHome {
         Label labelLike = new Label(String.valueOf(g.getLiked()));
         Label labeDislike = new Label(String.valueOf(g.getDisliked()));
         Image likeblue = theme.getImage("SYSTEM_LikeBlue.png");
-        Image likeback = theme.getImage("SYSTEM_LikeBlack.png");
         Image dislikered = theme.getImage("SYSTEM_DislikeRed.png");
-        Image dislikeback = theme.getImage("SYSTEM_DislikeBlack.png");
         Button like = new Button();
         like.setUIID("Container");
         like.setIcon(likeblue);
@@ -156,9 +185,13 @@ public class GalerieFormHome {
 
     private void updateGalerie(Container conatinergal) {
         conatinergal.removeAll();
+        this.galerie = ServiceGalerie.afficher();
         this.galerie = ServiceCommentaire.getLikeDislike(this.galerie);
         for (Publication g : this.galerie) {
-            conatinergal.add(createLikeDislikeWidget(g));
+            Container c = new Container(new BorderLayout(BorderLayout.CENTER_BEHAVIOR_CENTER));
+            
+            c.add(BorderLayout.CENTER,createLikeDislikeWidget(g));
+            conatinergal.add(c);
         }
     }
 

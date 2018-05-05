@@ -57,8 +57,8 @@ public class UserFormLogin {
                         ArticleFormHome afh = new ArticleFormHome();
                         afh.getForm().show();
                     } else {
-                        UserFormLogin a = new UserFormLogin(new Label("Error"));
-                        a.getForm().show();
+                        /*UserFormLogin a = new UserFormLogin(new Label("Error"));
+                        a.getForm().show();*/
                     }
                 }
             }
@@ -71,36 +71,6 @@ public class UserFormLogin {
 
     }
 
-    public UserFormLogin(Label l) {
-        this.form = new Form("Welcome", BoxLayout.y());
-        TextField username = new TextField();
-        username.setHint("username/email");
-        TextField password = new TextField();
-        password.setConstraint(TextField.PASSWORD);
-        password.setHint("Password");
-        Button login = new Button("Login");
-        Label error = new Label("");
-        error.setVisible(false);
-        login.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent evt) {
-                ServiceUser.login(username.getText(), password.getText());
-                if (Session.getUser() != null) {
-                    GalerieFormHome gfh = new GalerieFormHome();
-                    gfh.getForm().show();
-                } else {
-                    UserFormLogin a = new UserFormLogin(new Label("Error"));
-                    a.getForm().show();
-
-                }
-            }
-        });
-
-        this.form.add(username);
-        this.form.add(password);
-        this.form.add(login);
-        this.form.add(l);
-    }
 
     public Form getForm() {
         return form;
