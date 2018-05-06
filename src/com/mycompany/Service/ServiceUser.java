@@ -24,6 +24,30 @@ import java.util.Map;
  * @author Ghassen
  */
 public class ServiceUser {
+        public static void UpdateJetonUser(int id,float jeton){
+         ConnectionRequest con = new ConnectionRequest();
+        con.setUrl("http://localhost/RS2018/web/Match2018/UserJeton/"+id+"/"+jeton);
+        con.addResponseListener(new ActionListener<NetworkEvent>() {
+            @Override
+            public void actionPerformed(NetworkEvent evt) {
+                JSONParser jsonp = new JSONParser();                
+                try {
+                    Map<String, Object> jsonUser = jsonp.parseJSON(new CharArrayReader(new String(con.getResponseData()).toCharArray()));
+                    if(jsonUser.get("user")!=null){
+                        System.out.println("zboub");
+                        Session.setUser(Parser.toUser(jsonUser.get("user")));
+                    }else{
+                        System.out.println("nouna");
+                        Session.setUser(null);
+                    }
+                } catch (IOException | NumberFormatException e) {
+                }
+
+            }
+        });
+         NetworkManager.getInstance().addToQueueAndWait(con);
+    }
+
     public static void login(String username,String password){
         ConnectionRequest con = new ConnectionRequest();
         con.setUrl("http://localhost/RS2018/web/user/login/"+password+"/"+username);

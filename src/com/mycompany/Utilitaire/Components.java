@@ -23,9 +23,11 @@ import com.mycompany.gui.CountForm;
 import com.mycompany.gui.EquipeHome;
 import com.mycompany.gui.GalerieFormHome;
 import com.mycompany.gui.GroupesForm;
+import com.mycompany.gui.HistoriquePariFormHome;
 import com.mycompany.gui.MatchsForm;
 import com.mycompany.gui.PHFForm;
-import com.mycompany.gui.PariFormHome;
+import com.mycompany.gui.PariIndexHome;
+import com.mycompany.gui.PariPromosportFormHome;
 import com.mycompany.gui.StadesForm;
 import com.mycompany.gui.UserFormLogin;
 import com.mycompany.gui.UserFormPofile;
@@ -39,7 +41,7 @@ public class Components {
     public static void showHamburger(Form current) {
         Toolbar tb = current.getToolbar();
         Resources theme = UIManager.initFirstTheme("/theme");
-        Image icon= theme.getImage("logoo.png");
+        Image icon = theme.getImage("logoo.png");
         Container topBar = BorderLayout.centerAbsolute(new Label(icon));
         topBar.setUIID("SideCommand");
         tb.addComponentToSideMenu(topBar);
@@ -59,7 +61,10 @@ public class Components {
 
         });
         tb.addMaterialCommandToSideMenu("Equipes", FontImage.MATERIAL_GRADE, e -> {
+            InfiniteProgress prog = new InfiniteProgress();
+            Dialog dlg = prog.showInifiniteBlocking();
             EquipeHome equipehome = new EquipeHome();
+            dlg.dispose();
             equipehome.getForm().show();
 
         });
@@ -108,6 +113,29 @@ public class Components {
                 ufl.getForm().show();
             });
         } else {
+            tb.addMaterialCommandToSideMenu("Parier !", FontImage.MATERIAL_EURO_SYMBOL, e -> {
+                InfiniteProgress prog = new InfiniteProgress();
+                Dialog dlg = prog.showInifiniteBlocking();
+                PariIndexHome pih = new PariIndexHome();
+                dlg.dispose();
+                pih.getForm().show();
+            });
+
+            tb.addMaterialCommandToSideMenu("Promosport !", FontImage.MATERIAL_EURO_SYMBOL, e -> {
+                InfiniteProgress prog = new InfiniteProgress();
+                Dialog dlg = prog.showInifiniteBlocking();
+                PariPromosportFormHome ppsh = new PariPromosportFormHome();
+                dlg.dispose();
+                ppsh.getF().show();
+            });
+            tb.addMaterialCommandToSideMenu("Mes paris", FontImage.MATERIAL_EURO_SYMBOL, e -> {
+                InfiniteProgress prog = new InfiniteProgress();
+                Dialog dlg = prog.showInifiniteBlocking();
+                HistoriquePariFormHome hpfh = new HistoriquePariFormHome();
+                dlg.dispose();
+                hpfh.getForm().show();
+
+            });
             tb.addMaterialCommandToSideMenu("Chat", FontImage.MATERIAL_PEOPLE, e -> {
                 InfiniteProgress prog = new InfiniteProgress();
                 Dialog dlg = prog.showInifiniteBlocking();
@@ -116,13 +144,7 @@ public class Components {
                 cfh.getForm().show();
 
             });
-            tb.addMaterialCommandToSideMenu("Parier !", FontImage.MATERIAL_EURO_SYMBOL, e -> {
-                InfiniteProgress prog = new InfiniteProgress();
-                Dialog dlg = prog.showInifiniteBlocking();
-                PariFormHome pfh = new PariFormHome();
-                dlg.dispose();
-                pfh.getF().show();
-            });
+
             tb.addMaterialCommandToSideMenu("Profile", FontImage.MATERIAL_UPDATE, e -> {
                 InfiniteProgress prog = new InfiniteProgress();
                 Dialog dlg = prog.showInifiniteBlocking();

@@ -13,6 +13,7 @@ import com.mycompany.Entite.Entraineur;
 import com.mycompany.Entite.Equipe;
 import com.mycompany.Entite.Groupe;
 import com.mycompany.Entite.Joueur;
+import com.mycompany.Entite.Match;
 import com.mycompany.Entite.Publication;
 import com.mycompany.Entite.User;
 import java.util.ArrayList;
@@ -107,6 +108,16 @@ public class Parser {
         E.setListe_joueur(liste_joueurs);
         return E ;
     }
+    private static Equipe toEquipes(Object map) {
+        Equipe e = new Equipe();
+        Map<String, Object> jsonEquipe = (Map<String, Object>) map;
+        float id = Float.parseFloat(jsonEquipe.get("id").toString());
+        e.setId((int) id);
+        e.setNom(jsonEquipe.get("nom").toString());
+        e.setDrapeau(jsonEquipe.get("drapeau").toString());
+        return e;
+
+    }
     public static Entraineur toEntraineur(Object obj){
         Entraineur E = new Entraineur();
         Map<String , Object> JsonEntraineur = (Map<String , Object>) obj ;
@@ -148,6 +159,30 @@ public class Parser {
         A.setId((int) Float.parseFloat(JsonAbonnement.get("id").toString()));
         return A ;
     }
-    
+    public static Match toMatch(Object map,Date d) {
+        Match m = new Match();
+        Map<String, Object> jsonMatch = (Map<String, Object>) map;
+        float id = Float.parseFloat(jsonMatch.get("id").toString());
+        m.setId((int) id);
+        m.setCote_eq1(Float.parseFloat(jsonMatch.get("coteEq1").toString()));
+        m.setCote_eq2(Float.parseFloat(jsonMatch.get("coteEq2").toString()));
+        m.setCote_nul(Float.parseFloat(jsonMatch.get("coteNul").toString()));
+        m.setE1(toEquipes(jsonMatch.get("idEquipe1")));
+        m.setE2(toEquipes(jsonMatch.get("idEquipe2")));
+        m.setDate(d);
+        return m;
+    }
+    public static Match toMatch(Object map) {
+        Match m = new Match();
+        Map<String, Object> jsonMatch = (Map<String, Object>) map;
+        float id = Float.parseFloat(jsonMatch.get("id").toString());
+        m.setId((int) id);
+        m.setCote_eq1(Float.parseFloat(jsonMatch.get("coteEq1").toString()));
+        m.setCote_eq2(Float.parseFloat(jsonMatch.get("coteEq2").toString()));
+        m.setCote_nul(Float.parseFloat(jsonMatch.get("coteNul").toString()));
+        m.setE1(toEquipes(jsonMatch.get("idEquipe1")));
+        m.setE2(toEquipes(jsonMatch.get("idEquipe2")));
+        return m;
+    }
 
 }

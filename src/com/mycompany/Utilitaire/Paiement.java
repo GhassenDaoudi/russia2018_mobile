@@ -4,13 +4,16 @@
  * and open the template in the editor.
  */
 package com.mycompany.Utilitaire;
+
 import com.paydunya.neptune.*;
+
 /**
  *
  * @author skanderbejaoui
  */
 public class Paiement {
-      public static String payer() {
+
+    public static PaydunyaCheckoutInvoice payer(float qte) {
         PaydunyaSetup setup = new PaydunyaSetup();
         PaydunyaCheckoutStore store = new PaydunyaCheckoutStore();
         setup.setMasterKey("GRPkpNLh-ekmy-LBGP-8Oin-qINqVjofG2dY");
@@ -22,23 +25,23 @@ public class Paiement {
         store.setTagline("Application coupe du monde");
         store.setPhoneNumber("+21628428425");
         store.setPostalAddress("Tunisie");
-      store.setReturnUrl("http://localhost/RS2018/web");
-      store.setCallbackUrl("http://localhost/RS2018/web");
-  
+        store.setReturnUrl("http://localhost/RS2018/web");
+        store.setCallbackUrl("http://localhost/RS2018/web");
+
         PaydunyaCheckoutInvoice invoice = new PaydunyaCheckoutInvoice(setup, store);
-            invoice.setCallbackUrl("http://localhost/RS2018/web");
+        invoice.setCallbackUrl("http://localhost/RS2018/web");
         invoice.setReturnUrl("http://localhost/RS2018/web");
-        
-        
+
         invoice.setDescription("Description Optionnelle");
-        invoice.setTotalAmount(400);
+        invoice.setTotalAmount(qte);
         if (invoice.create()) {
-            String invoiceToken =invoice.token;
+            String invoiceToken = invoice.token;
             System.out.println(invoice.getStatus());
             System.out.println(invoice.getResponseText());
             System.out.println(invoice.getInvoiceUrl());
-            return invoice.getInvoiceUrl();
-           /* new Thread(new Runnable() {
+            return invoice;
+            //return invoice.getInvoiceUrl();
+            /* new Thread(new Runnable() {
                 @Override
                 public void run() {
                     while (true) {
@@ -87,8 +90,8 @@ public class Paiement {
         } else {
             System.out.println(invoice.getResponseText());
             System.out.println(invoice.getResponseCode());
-            return "erreur";
+            return null;
         }
-        
+
     }
 }

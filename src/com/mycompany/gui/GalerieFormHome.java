@@ -8,6 +8,7 @@ package com.mycompany.gui;
 import com.codename1.capture.Capture;
 import com.codename1.components.ImageViewer;
 import com.codename1.components.SpanLabel;
+import com.codename1.components.ToastBar;
 import com.codename1.ui.BrowserComponent;
 import com.codename1.ui.Button;
 import com.codename1.ui.Component;
@@ -74,6 +75,10 @@ public class GalerieFormHome {
             ajouter.addPointerPressedListener((t) -> {
                 if (!fileExt.equals("") && !filePath.equals("") && !titre.getText().equals("") && !description.getText().equals("")) {
                     ServiceGalerie.ajouter(Session.getUser(), filePath, titre.getText(), description.getText(), fileExt);
+                    ToastBar.Status status = ToastBar.getInstance().createStatus();
+                    status.setMessage("Image Ajouté");
+                    status.setExpires(3000);
+                    status.show();
                     updateGalerie(conatinergal);
                     form.revalidate();
                 }

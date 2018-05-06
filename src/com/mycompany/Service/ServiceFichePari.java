@@ -30,12 +30,23 @@ public class ServiceFichePari {
             @Override
             public void actionPerformed(NetworkEvent evt) {
                 JSONParser jsonp = new JSONParser();
-                System.out.println(new String(con.getResponseData()).toCharArray());
+
                 try {
                     Map<String, Object> ficheparis = jsonp.parseJSON(new CharArrayReader(new String(con.getResponseData()).toCharArray()));
-                    System.out.println(ficheparis);
+
+                    //Map<String, Object> list = (Map<String, Object>) ficheparis.get("root");
+                    //Map<String, Object> User = (Map<String, Object>) list.get("idUser");
+                    // Map<String, Object> Date = (Map<String, Object>) list.get("date");
+                    /* DateFormat date = new SimpleDateFormat();
+                        date = (DateFormat) Date.get("timestamp");*/
+                    // User u = new User();
+                    // float idu = Float.parseFloat(User.get("id").toString());
                     float idf = Float.parseFloat(ficheparis.get("id").toString());
+                    //u.setId((int)idu);
                     fp.setId((int) idf);
+
+                    //  fp.setU(u);
+                    // task.setNom(obj.get("name").toString());
                 } catch (IOException ex) {
                 }
 

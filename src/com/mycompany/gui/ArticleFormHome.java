@@ -138,7 +138,7 @@ public class ArticleFormHome {
     }
 
     private void updateRSS(Container rsscontainer) {
-        /*rsscontainer.removeAll();
+        rsscontainer.removeAll();
         List<Publication> listrssFifa = ServiceArticle.rssFifa();
         List<Publication> list = ServiceArticle.rss();
         List<Publication> ll = new ArrayList<>();
@@ -150,7 +150,7 @@ public class ArticleFormHome {
             SpanLabel d = new SpanLabel(publication.getDescription());
             d.getTextAllStyles().setFont(Font.createSystemFont(Font.FACE_SYSTEM, Font.STYLE_ITALIC, Font.SIZE_MEDIUM));
             rsscontainer.addComponent(d);
-        }*/
+        }
     }
 
     private void updateArticle(Container articleContainer) {
@@ -199,7 +199,7 @@ public class ArticleFormHome {
     }
 
     private void updateTwitter(Container twitterContainer) {
-        /*twitterContainer.removeAll();
+        twitterContainer.removeAll();
         for (Publication publication : TwitterAPI.searchtweets("Russia2018", 5)) {
             Container c1 = new Container(new BoxLayout(BoxLayout.Y_AXIS));
             Container ctitre = new Container(new BorderLayout(BorderLayout.CENTER_BEHAVIOR_CENTER));
@@ -213,7 +213,7 @@ public class ArticleFormHome {
             description.getTextAllStyles().setFont(Font.createSystemFont(Font.FACE_SYSTEM, Font.STYLE_PLAIN, Font.SIZE_SMALL));
             c1.add(description);
             twitterContainer.add(c1);
-        }*/
+        }
     }
 
 }
