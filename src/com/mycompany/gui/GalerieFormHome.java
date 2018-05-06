@@ -45,6 +45,7 @@ public class GalerieFormHome {
     private String fileExt;
 
     public GalerieFormHome() {
+
         theme = UIManager.initFirstTheme("/theme");
         this.filePath = "";
         this.fileExt = "";

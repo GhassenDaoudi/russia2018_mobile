@@ -9,6 +9,7 @@ import com.codename1.ui.util.Resources;
 import com.codename1.io.Log;
 import com.codename1.io.Storage;
 import com.codename1.ui.Toolbar;
+import com.mycompany.Service.ServiceArticle;
 import com.mycompany.Service.ServiceChat;
 import com.mycompany.Service.ServiceUser;
 import com.mycompany.gui.ArticleFormHome;

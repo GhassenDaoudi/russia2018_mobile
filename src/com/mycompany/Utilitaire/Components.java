@@ -20,6 +20,7 @@ import com.codename1.ui.util.Resources;
 import com.mycompany.gui.ArticleFormHome;
 import com.mycompany.gui.ChatFormHome;
 import com.mycompany.gui.CountForm;
+import com.mycompany.gui.EquipeHome;
 import com.mycompany.gui.GalerieFormHome;
 import com.mycompany.gui.GroupesForm;
 import com.mycompany.gui.MatchsForm;
@@ -55,6 +56,11 @@ public class Components {
             GalerieFormHome gfh = new GalerieFormHome();
             dlg.dispose();
             gfh.getForm().show();
+
+        });
+        tb.addMaterialCommandToSideMenu("Equipes", FontImage.MATERIAL_GRADE, e -> {
+            EquipeHome equipehome = new EquipeHome();
+            equipehome.getForm().show();
 
         });
         /*tb.addMaterialCommandToSideMenu("Count", FontImage.MATERIAL_HOME, e -> {

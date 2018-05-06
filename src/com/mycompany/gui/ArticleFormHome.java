@@ -8,8 +8,6 @@ package com.mycompany.gui;
 import com.codename1.components.SpanButton;
 import com.codename1.components.SpanLabel;
 import com.codename1.components.ToastBar;
-import com.codename1.io.NetworkManager;
-import com.codename1.io.services.RSSService;
 import com.codename1.ui.Button;
 import com.codename1.ui.Component;
 import com.codename1.ui.Container;
@@ -24,10 +22,13 @@ import com.codename1.ui.events.ActionListener;
 import com.codename1.ui.layouts.BorderLayout;
 import com.codename1.ui.layouts.BoxLayout;
 import com.mycompany.Entite.Publication;
+import com.mycompany.Entite.User;
 import com.mycompany.Service.ServiceArticle;
 import com.mycompany.Utilitaire.Components;
 import com.mycompany.Utilitaire.Session;
 import com.mycompany.Utilitaire.TwitterAPI;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
@@ -137,21 +138,24 @@ public class ArticleFormHome {
     }
 
     private void updateRSS(Container rsscontainer) {
-        rsscontainer.removeAll();
-        
-        RSSService rss = new RSSService("https://talksport.com/rss/sports-news/football/feed");
-        NetworkManager.getInstance().addToQueueAndWait(rss);
-        
-        records = rss.getResults();
-        for (Map m : records) {
-            rsscontainer.addComponent(new SpanLabel((String) m.get("title")));
-            rsscontainer.addComponent(new SpanLabel((String) m.get("pubDate")));
-        }
+        /*rsscontainer.removeAll();
+        List<Publication> listrssFifa = ServiceArticle.rssFifa();
+        List<Publication> list = ServiceArticle.rss();
+        List<Publication> ll = new ArrayList<>();
+        ll.addAll(listrssFifa);
+        ll.addAll(list);
+        Collections.shuffle(ll);
+        for (Publication publication : ll) {
+            rsscontainer.addComponent(new SpanLabel(publication.getTitre()));
+            SpanLabel d = new SpanLabel(publication.getDescription());
+            d.getTextAllStyles().setFont(Font.createSystemFont(Font.FACE_SYSTEM, Font.STYLE_ITALIC, Font.SIZE_MEDIUM));
+            rsscontainer.addComponent(d);
+        }*/
     }
 
     private void updateArticle(Container articleContainer) {
         articleContainer.removeAll();
-        if (Session.getUser() != null) {
+        if (Session.getUser() != null &&Session.getUser().getRole().equals(User.Role.journaliste)) {
             Container c100 = new Container(new BoxLayout(BoxLayout.Y_AXIS));
             TextField titre = new TextField();
             titre.setHint("titre");
@@ -165,6 +169,7 @@ public class ArticleFormHome {
             ajouter.addPointerPressedListener((e) -> {
                 if (!description.getText().equals("") && !titre.getText().equals("")) {
                     ServiceArticle.ajouter(Session.getUser(), titre.getText(), description.getText());
+                    
                     ToastBar.Status status = ToastBar.getInstance().createStatus();
                     status.setMessage("Article Ajouté");
                     status.setExpires(3000);
@@ -194,7 +199,7 @@ public class ArticleFormHome {
     }
 
     private void updateTwitter(Container twitterContainer) {
-        twitterContainer.removeAll();
+        /*twitterContainer.removeAll();
         for (Publication publication : TwitterAPI.searchtweets("Russia2018", 5)) {
             Container c1 = new Container(new BoxLayout(BoxLayout.Y_AXIS));
             Container ctitre = new Container(new BorderLayout(BorderLayout.CENTER_BEHAVIOR_CENTER));
@@ -208,7 +213,7 @@ public class ArticleFormHome {
             description.getTextAllStyles().setFont(Font.createSystemFont(Font.FACE_SYSTEM, Font.STYLE_PLAIN, Font.SIZE_SMALL));
             c1.add(description);
             twitterContainer.add(c1);
-        }
+        }*/
     }
 
 }
