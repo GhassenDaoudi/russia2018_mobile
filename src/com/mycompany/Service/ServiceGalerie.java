@@ -22,20 +22,20 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+
 /**
  *
  * @author Ghassen
  */
 public class ServiceGalerie {
-
-    public static ArrayList<Publication> afficher() {
+        public static ArrayList<Publication> afficher() {
         ArrayList<Publication> listGalerie = new ArrayList<>();
         ConnectionRequest con = new ConnectionRequest();
-        con.setUrl("http://localhost/RS2018/web/galerie/all");
+        con.setUrl("http://localhost/RS2018_2/web/galerie/all");
         con.addResponseListener(new ActionListener<NetworkEvent>() {
             @Override
             public void actionPerformed(NetworkEvent evt) {
-                JSONParser jsonp = new JSONParser();
+                JSONParser jsonp = new JSONParser();                
                 try {
                     Map<String, Object> galerie = jsonp.parseJSON(new CharArrayReader(new String(con.getResponseData()).toCharArray()));
                     List<Map<String, Object>> list = (List<Map<String, Object>>) galerie.get("root");
@@ -52,9 +52,9 @@ public class ServiceGalerie {
         return listGalerie;
     }
 
-    public static void ajouter(User user, String filePath, String titre, String description,String ext) {
+    public static void ajouter(User user, String filePath, String titre, String description) {
         MultipartRequest cr = new MultipartRequest();
-        cr.setUrl("http://localhost/RS2018/web/galerie/majouter/"+user.getId()+"/"+titre+"/"+description);
+        cr.setUrl("http://localhost/RS2018_2/web/galerie/majouter/"+user.getId()+"/"+titre+"/"+description);
         cr.addResponseListener((e) -> {
             JSONParser jsonp = new JSONParser();
             try {
@@ -68,7 +68,7 @@ public class ServiceGalerie {
             cr.addData("file", filePath, mime);
         } catch (IOException ex) {
         }
-        cr.setFilename("file", String.valueOf(System.currentTimeMillis())+ext);
+        cr.setFilename("file", String.valueOf(System.currentTimeMillis()));
         InfiniteProgress prog = new InfiniteProgress();
         Dialog dlg = prog.showInifiniteBlocking();
         cr.setDisposeOnCompletion(dlg);

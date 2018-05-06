@@ -30,8 +30,8 @@ public class StatsPari {
      */
     private DefaultRenderer buildCategoryRenderer(int[] colors) {
         DefaultRenderer renderer = new DefaultRenderer();
-        renderer.setLabelsTextSize(10);
-        renderer.setLegendTextSize(10);
+        renderer.setLabelsTextSize(50);
+        renderer.setLegendTextSize(50);
         renderer.setMargins(new int[]{20, 30, 15, 0});
         for (int color : colors) {
             SimpleSeriesRenderer r = new SimpleSeriesRenderer();
@@ -101,7 +101,7 @@ public class StatsPari {
         DefaultRenderer renderer = buildCategoryRenderer(colors);
         renderer.setZoomButtonsVisible(true);
         renderer.setZoomEnabled(true);
-        renderer.setChartTitleTextSize(10);
+        renderer.setChartTitleTextSize(40);
         renderer.setDisplayValues(true);
         renderer.setShowLabels(true);
         SimpleSeriesRenderer r = renderer.getSeriesRendererAt(0);

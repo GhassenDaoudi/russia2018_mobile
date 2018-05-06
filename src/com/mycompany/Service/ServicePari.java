@@ -36,7 +36,7 @@ private static boolean test = false;
     public static ArrayList<Match> getList() {
         ArrayList<Match> listMatchs = new ArrayList<>();
         ConnectionRequest con = new ConnectionRequest();
-        con.setUrl("http://localhost/RS2018/web/Match2018/all");
+        con.setUrl("http://localhost/RS2018_2/web/Match2018/all");
         con.addResponseListener(new ActionListener<NetworkEvent>() {
             @Override
             public void actionPerformed(NetworkEvent evt) {
@@ -82,7 +82,7 @@ private static boolean test = false;
     public static List<Pari> getListPromosport() {
         ArrayList<Pari> listparis = new ArrayList<>();
         ConnectionRequest con = new ConnectionRequest();
-        con.setUrl("http://localhost/RS2018/web/Pari/MobilePromosport");
+        con.setUrl("http://localhost/RS2018_2/web/Pari/MobilePromosport");
         con.addResponseListener(new ActionListener<NetworkEvent>() {
             @Override
             public void actionPerformed(NetworkEvent evt) {
@@ -123,7 +123,7 @@ private static boolean test = false;
     public static Map<Date, List<Match>> getAll() {
         Map<Date, List<Match>> matchs = new TreeMap<>();
         ConnectionRequest con = new ConnectionRequest();
-        con.setUrl("http://localhost/RS2018/web/Pari/MobileIndex");
+        con.setUrl("http://localhost/RS2018_2/web/Pari/MobileIndex");
         con.addResponseListener((e) -> {
             try {
                 JSONParser jsonp = new JSONParser();
@@ -167,14 +167,14 @@ private static boolean test = false;
     public void AjoutPari(Match match, FichePari fp, float mise, float gain, float cote, String resultat) {
 
         ConnectionRequest con = new ConnectionRequest();
-        con.setUrl("http://localhost/RS2018/web/Match2018/pari/" + match.getId() + "/" + fp.getId() + "/" + mise + "/" + gain + "/" + cote + "/" + resultat);
+        con.setUrl("http://localhost/RS2018_2/web/Match2018/pari/" + match.getId() + "/" + fp.getId() + "/" + mise + "/" + gain + "/" + cote + "/" + resultat);
         NetworkManager.getInstance().addToQueueAndWait(con);
     }
 
     public static List<FichePari> getListHistoriquePari(int idUser) {
         ArrayList<FichePari> listficheparis = new ArrayList<>();
         ConnectionRequest con = new ConnectionRequest();
-        con.setUrl("http://localhost/RS2018/web/Pari/MobileHistorique/" + idUser);
+        con.setUrl("http://localhost/RS2018_2/web/Pari/MobileHistorique/" + idUser);
         con.addResponseListener(new ActionListener<NetworkEvent>() {
             @Override
             public void actionPerformed(NetworkEvent evt) {
@@ -218,7 +218,7 @@ private static boolean test = false;
     public static List<Pari> getPariparFiche(int idFichePari) {
         ArrayList<Pari> listparis = new ArrayList<>();
         ConnectionRequest con = new ConnectionRequest();
-        con.setUrl("http://localhost/RS2018/web/Pari/MobileHistorique/Client/" + idFichePari);
+        con.setUrl("http://localhost/RS2018_2/web/Pari/MobileHistorique/Client/" + idFichePari);
         con.addResponseListener(new ActionListener<NetworkEvent>() {
             @Override
             public void actionPerformed(NetworkEvent evt) {
@@ -259,7 +259,7 @@ private static boolean test = false;
     public static boolean GagnantPari() {
        test = false;
         ConnectionRequest con = new ConnectionRequest();
-        con.setUrl("http://localhost/RS2018/web/Pari/Mobile/gagnant");
+        con.setUrl("http://localhost/RS2018_2/web/Pari/Mobile/gagnant");
         con.addResponseListener(new ActionListener<NetworkEvent>() {
             @Override
             public void actionPerformed(NetworkEvent evt) {

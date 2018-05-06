@@ -8,6 +8,8 @@ package com.mycompany.gui;
 import com.codename1.components.SpanButton;
 import com.codename1.components.SpanLabel;
 import com.codename1.components.ToastBar;
+import com.codename1.io.NetworkManager;
+import com.codename1.io.services.RSSService;
 import com.codename1.ui.Button;
 import com.codename1.ui.Component;
 import com.codename1.ui.Container;
@@ -22,13 +24,10 @@ import com.codename1.ui.events.ActionListener;
 import com.codename1.ui.layouts.BorderLayout;
 import com.codename1.ui.layouts.BoxLayout;
 import com.mycompany.Entite.Publication;
-import com.mycompany.Entite.User;
 import com.mycompany.Service.ServiceArticle;
 import com.mycompany.Utilitaire.Components;
 import com.mycompany.Utilitaire.Session;
 import com.mycompany.Utilitaire.TwitterAPI;
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
@@ -45,14 +44,16 @@ public class ArticleFormHome {
 
     public ArticleFormHome() {
         this.form = new Form("Russia 2018", BoxLayout.y());
-
         Container actualite = new Container(new BoxLayout(BoxLayout.Y_AXIS));
+        //actualite.setScrollableY(true);
         Container twitter = new Container(new BoxLayout(BoxLayout.Y_AXIS));
+        //twitter.setScrollableY(true);
         Container RSS = new Container(new BoxLayout(BoxLayout.Y_AXIS));
+        //RSS.setScrollableY(true);
         updateRSS(RSS);
         updateArticle(actualite);
         updateTwitter(twitter);
-
+        
         Components.showHamburger(this.form);
         Tabs tb = new Tabs() {
             @Override
@@ -60,7 +61,7 @@ public class ArticleFormHome {
                 SpanButton custom = new SpanButton(title);
                 custom.setIcon(icon);
                 custom.setUIID("Container");
-                custom.setTextUIID("Tab2");
+                custom.setTextUIID("Tab");
                 custom.setIconPosition(BorderLayout.NORTH);
                 custom.setIconUIID("Tab");
                 return custom;
@@ -83,11 +84,10 @@ public class ArticleFormHome {
         };
         tb.setTabUIID(null);
         tb.addTab("Actualite", actualite);
-
         tb.addTab("Twitter", twitter);
         tb.addTab("RSS", RSS);
         tb.getTabsContainer().setScrollableX(false);
-        this.form.add(tb);
+        this.form.add( tb);
         this.form.getContentPane().addPullToRefresh(new Runnable() {
             @Override
             public void run() {
@@ -97,36 +97,53 @@ public class ArticleFormHome {
                 form.revalidate();
             }
         });
-        this.form.getToolbar().addSearchCommand(e -> {
-            String text = (String) e.getSource();
-            if (text == null || text.length() == 0) {
-                for (Component cmp : actualite) {
-                    cmp.setHidden(false);
-                    cmp.setVisible(true);
+        /*for (Publication publication : article) {
+            Container c1 = new Container(new BoxLayout(BoxLayout.Y_AXIS));
+            Container ctitre = new Container(new BorderLayout(BorderLayout.CENTER_BEHAVIOR_CENTER));
+            Label titre = new Label(publication.getTitre());
+            titre.addPointerPressedListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent evt) {
+                    Form f2 = new Form();
+                    f2 = new Form(BoxLayout.y());
+                    Toolbar tb = f2.getToolbar();
+                    tb.addMaterialCommandToLeftBar("Back", FontImage.MATERIAL_ARROW_BACK, e -> {
+                        form.showBack();
+                    });
+                    Container c = new Container(new BoxLayout(BoxLayout.Y_AXIS));
+                    Label sp = new Label(publication.getTitre());
+                    c.add(sp);
+                    Label user = new Label("@" + publication.getUser().getUsername() + ":");
+                    user.getUnselectedStyle().setFont(Font.createSystemFont(Font.FACE_SYSTEM, Font.STYLE_ITALIC, Font.SIZE_MEDIUM));
+                    c.add(user);
+                    SpanLabel description = new SpanLabel(publication.getDescription());
+                    description.getTextAllStyles().setFont(Font.createSystemFont(Font.FACE_SYSTEM, Font.STYLE_PLAIN, Font.SIZE_SMALL));
+                    c.add(description);
+                    Label com = new Label("Commentaires:");
+                    c.add(com);
+                    List<Commentaire> comms = ServiceCommentaire.afficher(publication.getId());
+                    Container c1 = new Container(new BoxLayout(BoxLayout.Y_AXIS));
+                    for (Commentaire comm : comms) {
+                        SpanLabel sl = new SpanLabel(comm.getDescription());
+                        sl.getTextAllStyles().setFont(Font.createSystemFont(Font.FACE_SYSTEM, Font.STYLE_PLAIN, Font.SIZE_SMALL));
+                        c1.add(sl);
+                    }
+                    f2.add(c1);
+                    f2.add(c);
+                    f2.show();
                 }
-                actualite.animateLayout(150);
-            } else {
-                text = text.toLowerCase();
-                int i = 0;
-                if (Session.getUser() != null) {
-                    i = 1;
-                }
-                for (int j = i; j < actualite.getComponentCount(); j++) {
-                    Container c = (Container) actualite.getComponentAt(j);
-                    Container ctitre = (Container) c.getComponentAt(0);
-                    Label titre = (Label) ctitre.getComponentAt(0);
-                    Label user = (Label) c.getComponentAt(1);
-                    SpanLabel desc = (SpanLabel) c.getComponentAt(2);
-                    String line1 = titre.getText();
-                    String line2 = user.getText();
-                    String line3 = desc.getText();
-                    boolean show = line1.toLowerCase().contains(text) || line2.toLowerCase().contains(text) || line3.toLowerCase().contains(text);
-                    c.setHidden(!show);
-                    c.setVisible(show);
-                }
-                actualite.animateLayout(150);
-            }
-        }, 4);
+            });
+            ctitre.add(BorderLayout.CENTER, titre);
+            c1.add(ctitre);
+            Label user = new Label("@" + publication.getUser().getUsername() + ":");
+            user.getUnselectedStyle().setFont(Font.createSystemFont(Font.FACE_SYSTEM, Font.STYLE_ITALIC, Font.SIZE_MEDIUM));
+            c1.add(user);
+            SpanLabel description = new SpanLabel(publication.getDescription());
+            description.getTextAllStyles().setFont(Font.createSystemFont(Font.FACE_SYSTEM, Font.STYLE_PLAIN, Font.SIZE_SMALL));
+            c1.add(description);
+            this.form.add(c1);
+
+        }*/
     }
 
     public Form getForm() {
@@ -136,26 +153,22 @@ public class ArticleFormHome {
     public void setForm(Form form) {
         this.form = form;
     }
-
     private void updateRSS(Container rsscontainer) {
-        rsscontainer.removeAll();
-        List<Publication> listrssFifa = ServiceArticle.rssFifa();
-        List<Publication> list = ServiceArticle.rss();
-        List<Publication> ll = new ArrayList<>();
-        ll.addAll(listrssFifa);
-        ll.addAll(list);
-        Collections.shuffle(ll);
-        for (Publication publication : ll) {
-            rsscontainer.addComponent(new SpanLabel(publication.getTitre()));
-            SpanLabel d = new SpanLabel(publication.getDescription());
-            d.getTextAllStyles().setFont(Font.createSystemFont(Font.FACE_SYSTEM, Font.STYLE_ITALIC, Font.SIZE_MEDIUM));
-            rsscontainer.addComponent(d);
-        }
+       /* rsscontainer.removeAll();
+        
+        RSSService rss = new RSSService("https://talksport.com/rss/sports-news/football/feed");
+        NetworkManager.getInstance().addToQueueAndWait(rss);
+        
+        records = rss.getResults();
+        for (Map m : records) {
+            rsscontainer.addComponent(new SpanLabel((String) m.get("title")));
+            rsscontainer.addComponent(new SpanLabel((String) m.get("pubDate")));
+        }*/
     }
 
     private void updateArticle(Container articleContainer) {
         articleContainer.removeAll();
-        if (Session.getUser() != null &&Session.getUser().getRole().equals(User.Role.journaliste)) {
+        if(Session.getUser()!=null){
             Container c100 = new Container(new BoxLayout(BoxLayout.Y_AXIS));
             TextField titre = new TextField();
             titre.setHint("titre");
@@ -166,10 +179,9 @@ public class ArticleFormHome {
             c100.add(description);
             c100.add(ajouter);
             articleContainer.add(c100);
-            ajouter.addPointerPressedListener((e) -> {
-                if (!description.getText().equals("") && !titre.getText().equals("")) {
-                    ServiceArticle.ajouter(Session.getUser(), titre.getText(), description.getText());
-                    
+            ajouter.addPointerPressedListener((e)->{
+                if(!description.getText().equals("")&&!titre.getText().equals("")){
+                    ServiceArticle.ajouter(Session.getUser(),titre.getText(),description.getText());
                     ToastBar.Status status = ToastBar.getInstance().createStatus();
                     status.setMessage("Article Ajouté");
                     status.setExpires(3000);
@@ -182,8 +194,8 @@ public class ArticleFormHome {
             Container c1 = new Container(new BoxLayout(BoxLayout.Y_AXIS));
             Container ctitre = new Container(new BorderLayout(BorderLayout.CENTER_BEHAVIOR_CENTER));
             Label titre = new Label(p.getTitre());
-            titre.addPointerPressedListener((e) -> {
-                CommentaireFormHome cfh = new CommentaireFormHome(p, this.form);
+            titre.addPointerPressedListener((e)->{
+                CommentaireFormHome cfh = new CommentaireFormHome(p ,this.form);
                 cfh.getForm().show();
             });
             ctitre.add(BorderLayout.CENTER, titre);
@@ -199,7 +211,7 @@ public class ArticleFormHome {
     }
 
     private void updateTwitter(Container twitterContainer) {
-        twitterContainer.removeAll();
+     /*   twitterContainer.removeAll();
         for (Publication publication : TwitterAPI.searchtweets("Russia2018", 5)) {
             Container c1 = new Container(new BoxLayout(BoxLayout.Y_AXIS));
             Container ctitre = new Container(new BorderLayout(BorderLayout.CENTER_BEHAVIOR_CENTER));
@@ -213,7 +225,7 @@ public class ArticleFormHome {
             description.getTextAllStyles().setFont(Font.createSystemFont(Font.FACE_SYSTEM, Font.STYLE_PLAIN, Font.SIZE_SMALL));
             c1.add(description);
             twitterContainer.add(c1);
-        }
+        }*/
     }
 
 }

@@ -24,9 +24,9 @@ import java.util.Map;
  * @author Ghassen
  */
 public class ServiceUser {
-        public static void UpdateJetonUser(int id,float jeton){
-         ConnectionRequest con = new ConnectionRequest();
-        con.setUrl("http://localhost/RS2018/web/Match2018/UserJeton/"+id+"/"+jeton);
+    public static void login(String username,String password){
+        ConnectionRequest con = new ConnectionRequest();
+        con.setUrl("http://localhost/RS2018_2/web/user/login/"+password+"/"+username);
         con.addResponseListener(new ActionListener<NetworkEvent>() {
             @Override
             public void actionPerformed(NetworkEvent evt) {
@@ -34,10 +34,8 @@ public class ServiceUser {
                 try {
                     Map<String, Object> jsonUser = jsonp.parseJSON(new CharArrayReader(new String(con.getResponseData()).toCharArray()));
                     if(jsonUser.get("user")!=null){
-                        System.out.println("zboub");
                         Session.setUser(Parser.toUser(jsonUser.get("user")));
                     }else{
-                        System.out.println("nouna");
                         Session.setUser(null);
                     }
                 } catch (IOException | NumberFormatException e) {
@@ -45,34 +43,14 @@ public class ServiceUser {
 
             }
         });
-         NetworkManager.getInstance().addToQueueAndWait(con);
-    }
-
-    public static void login(String username,String password){
-        ConnectionRequest con = new ConnectionRequest();
-        con.setUrl("http://localhost/RS2018/web/user/login/"+password+"/"+username);
-        con.addResponseListener(new ActionListener<NetworkEvent>() {
-            @Override
-            public void actionPerformed(NetworkEvent evt) {
-                JSONParser jsonp = new JSONParser();                
-                try {
-                    Map<String, Object> jsonUser = jsonp.parseJSON(new CharArrayReader(new String(con.getResponseData()).toCharArray()));
-                    if(jsonUser.get("user")!=null){
-                        Session.setUser(Parser.toUser(jsonUser.get("user")));
-                    }else{
-                        Session.setUser(null);
-                    }
-                } catch (IOException | NumberFormatException e) {
-                }
-
-            }
-        });        
+        
+        //con.setDisposeOnCompletion(dlg);*/
         NetworkManager.getInstance().addToQueueAndWait(con);
     }
     public static List<User> getAll() {
         ArrayList<User> users = new ArrayList<>();
         ConnectionRequest con = new ConnectionRequest();
-        con.setUrl("http://localhost/RS2018/web/user/all");
+        con.setUrl("http://localhost/RS2018_2/web/user/all");
         con.addResponseListener(new ActionListener<NetworkEvent>() {
             @Override
             public void actionPerformed(NetworkEvent evt) {
@@ -94,7 +72,7 @@ public class ServiceUser {
 
     public static void login(int test) {
         ConnectionRequest con = new ConnectionRequest();
-        con.setUrl("http://localhost/RS2018/web/user/get/"+test);
+        con.setUrl("http://localhost/RS2018_2/web/user/get/"+test);
         con.addResponseListener(new ActionListener<NetworkEvent>() {
             @Override
             public void actionPerformed(NetworkEvent evt) {
@@ -112,6 +90,30 @@ public class ServiceUser {
             }
         });        
         NetworkManager.getInstance().addToQueueAndWait(con);
+    }
+    
+    public static void UpdateJetonUser(int id,float jeton){
+         ConnectionRequest con = new ConnectionRequest();
+        con.setUrl("http://localhost/RS2018_2/web/Match2018/UserJeton/"+id+"/"+jeton);
+        con.addResponseListener(new ActionListener<NetworkEvent>() {
+            @Override
+            public void actionPerformed(NetworkEvent evt) {
+                JSONParser jsonp = new JSONParser();                
+                try {
+                    Map<String, Object> jsonUser = jsonp.parseJSON(new CharArrayReader(new String(con.getResponseData()).toCharArray()));
+                    if(jsonUser.get("user")!=null){
+                        System.out.println("zboub");
+                        Session.setUser(Parser.toUser(jsonUser.get("user")));
+                    }else{
+                        System.out.println("nouna");
+                        Session.setUser(null);
+                    }
+                } catch (IOException | NumberFormatException e) {
+                }
+
+            }
+        });
+         NetworkManager.getInstance().addToQueueAndWait(con);
     }
     
 }

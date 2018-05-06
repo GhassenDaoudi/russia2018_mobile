@@ -54,8 +54,8 @@ public class PariIndexHome {
 
         this.form = new Form("Parier !",BoxLayout.y());
         Components.showHamburger(this.form);
-        //ArrayList<Match> matchs = ServicePari.getList();
-        EncodedImage placeholder = EncodedImage.createFromImage(Image.createImage(40, 40, 0xffff0000), true);
+        ArrayList<Match> matchs = ServicePari.getList();
+        EncodedImage placeholder = EncodedImage.createFromImage(Image.createImage(150, 150, 0xffff0000), true);
          Style s = UIManager.getInstance().getComponentStyle("TitleCommand");
         FontImage icon = FontImage.createMaterial(FontImage.MATERIAL_EURO_SYMBOL, s);
           this.form.getToolbar().addCommandToRightBar("Ma fiche (" + PanierPari.getLp().size() + ")", icon, (e) -> {

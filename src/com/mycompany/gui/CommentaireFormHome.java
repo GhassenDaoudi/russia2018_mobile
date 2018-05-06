@@ -9,7 +9,6 @@ import com.codename1.components.SpanLabel;
 import com.codename1.components.ToastBar;
 import com.codename1.ui.Button;
 import com.codename1.ui.Container;
-import com.codename1.ui.Dialog;
 import com.codename1.ui.Font;
 import com.codename1.ui.Form;
 import com.codename1.ui.Label;
@@ -62,12 +61,10 @@ public class CommentaireFormHome {
                 if(!input.getText().equals("")){
                     ServiceCommentaire.ajouter(Session.getUser(),p,input);
                     ToastBar.Status status = ToastBar.getInstance().createStatus();
-                    status.setMessage("Commentaire Ajouté");
+                    status.setMessage("Article Ajouté");
                     status.setExpires(3000);
                     status.show();
                     updateCommentaire(commentaires,p);
-                }else{
-                    Dialog.show("Erreur", "Nik Ommek", "ok","cancel");
                 }
             });
         }

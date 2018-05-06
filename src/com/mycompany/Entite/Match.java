@@ -5,8 +5,8 @@
  */
 package com.mycompany.Entite;
 
-
 import java.util.Date;
+import java.util.TimeZone;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleButton;
@@ -31,7 +31,7 @@ public class Match {
     private Equipe E2;
     private Stade S;
     private Date date;
-    private Date heure;
+    private TimeZone heure;
     private Score score1;
     //private String score;
     private EtatMatch etat;
@@ -41,13 +41,13 @@ public class Match {
     private float cote_eq1;
     private float cote_eq2;
     private float cote_nul;
-    private String nom1;
+   /* private String nom1;ù
     private String nom2;
     private ToggleButton button1;
     private ToggleButton button2;
     private ToggleButton button3;
     private TextField tf;
-    private CheckBox ck;
+    private CheckBox ck;*/
 
     @Override
     public int hashCode() {
@@ -73,16 +73,16 @@ public class Match {
         return true;
     }
 
-   public Match() {
-        /*this.E1 = new Equipe();
+    public Match() {
+        this.E1 = new Equipe();
         this.E2 = new Equipe();
-        this.button1 = new ToggleButton();
+      /*  this.button1 = new ToggleButton();
         this.button2 = new ToggleButton();
         this.button3 = new ToggleButton();
         this.ck = new CheckBox();*/
     }
 
-    public Match(int i, Groupe G, Equipe E1, Equipe E2, Stade S, Date date, Date heure, Score score1, /*String score,*/ EtatMatch etat, int duree, int nombre_spectateur, progress type) {
+    public Match(int i, Groupe G, Equipe E1, Equipe E2, Stade S, Date date, TimeZone heure, Score score1, /*String score,*/ EtatMatch etat, int duree, int nombre_spectateur, progress type) {
         this.id = i;
         this.G = G;
         this.E1 = E1;
@@ -98,7 +98,7 @@ public class Match {
         this.type = type;
     }
 
-    public Match(int i, Date date, Date heure, Equipe E1, Score score, Equipe E2, Stade S) {
+    public Match(int i, Date date, TimeZone heure, Equipe E1, Score score, Equipe E2, Stade S) {
         this.id = i;
         this.date = date;
         this.heure = heure;
@@ -173,11 +173,11 @@ public class Match {
         this.date = date;
     }
 
-    public Date getHeure() {
+    public TimeZone getHeure() {
         return heure;
     }
 
-    public void setHeure(Date heure) {
+    public void setHeure(TimeZone heure) {
         this.heure = heure;
     }
 
@@ -214,10 +214,12 @@ public class Match {
 
     @Override
     public String toString() {
-        return "Match{" + "id=" + id + ", G=" + G + ", E1=" + E1 + ", E2=" + E2 + ", S=" + S + ", date=" + date + ", heure=" + heure + ", score1=" + score1 + ", etat=" + etat + ", duree=" + duree + ", nombre_spectateur=" + nombre_spectateur + ", type=" + type + '}';
+        return "Match{" + "id=" + id + ", G=" + G + ", E1=" + E1 + ", E2=" + E2 + ", S=" + S + ", date=" + date + ", heure=" + heure + ", score1=" + score1 + ", etat=" + etat + ", duree=" + duree + ", nombre_spectateur=" + nombre_spectateur + ", type=" + type + ", cote_eq1=" + cote_eq1 + ", cote_eq2=" + cote_eq2 + ", cote_nul=" + cote_nul + '}';
     }
 
-    public String toString1() {
+   
+
+  /*  public String toString1() {
         return this.getE1().getNom() + " - " + this.getE2().getNom() + "   Cote :" + this.getButton1().getText();
     }
 
@@ -231,39 +233,37 @@ public class Match {
 
     public String toString4() {
         return this.getNom1() + "     -     " + this.getNom2();
-    }
+    }*/
 
     public Match(String a, String b, float cote_eq1, float cote_nul, float cote_eq2, int id) {
-        this.button1 = new ToggleButton(String.valueOf(cote_eq1));
+       /* this.button1 = new ToggleButton(String.valueOf(cote_eq1));
         this.button2 = new ToggleButton(String.valueOf(cote_nul));
-        this.button3 = new ToggleButton(String.valueOf(cote_eq2));
+        this.button3 = new ToggleButton(String.valueOf(cote_eq2));*/
         this.E1 = new Equipe();
         this.E2 = new Equipe();
-        this.setNom1(a);
-        this.setNom2(b);
         this.cote_eq1 = cote_eq1;
         this.cote_eq2 = cote_eq2;
         this.cote_nul = cote_nul;
         this.id = id;
     }
 
-    public Match(String a, String b, CheckBox ck, int id) {
+   /* public Match(String a, String b, CheckBox ck, int id) {
         this.E1 = new Equipe();
         this.E2 = new Equipe();
         this.setNom1(a);
         this.setNom2(b);
         this.ck = new CheckBox();
         this.setId(id);
-    }
+    }*/
 
-    public Match(String a, String b) {
+  /*  public Match(String a, String b) {
         this.E1 = new Equipe();
         this.E2 = new Equipe();
         this.setNom1(a);
         this.setNom2(b);
         this.ck = new CheckBox();
 
-    }
+    }*/
 
     public float getCote_eq1() {
         return cote_eq1;
@@ -289,7 +289,7 @@ public class Match {
         this.cote_nul = cote_nul;
     }
 
-    public String getNom1() {
+  /*  public String getNom1() {
         return nom1;
     }
 
@@ -343,6 +343,6 @@ public class Match {
 
     public void setCk(CheckBox ck) {
         this.ck = ck;
-    }
+    }*/
 
 }

@@ -5,7 +5,6 @@
  */
 package com.mycompany.gui;
 
-import com.codename1.io.Storage;
 import com.codename1.ui.Button;
 import com.codename1.ui.CheckBox;
 import com.codename1.ui.Form;
@@ -17,6 +16,7 @@ import com.codename1.ui.layouts.BoxLayout;
 import com.mycompany.Entite.User;
 import com.mycompany.Service.ServiceUser;
 import com.mycompany.Utilitaire.Components;
+import com.mycompany.Utilitaire.DataBase;
 import com.mycompany.Utilitaire.Session;
 import java.util.List;
 
@@ -46,23 +46,24 @@ public class UserFormLogin {
             @Override
             public void actionPerformed(ActionEvent evt) {
                 if (!username.getText().equals("") && !password.getText().equals("")) {
-
                     ServiceUser.login(username.getText(), password.getText());
                     if (Session.getUser() != null) {
-                        if (rememberMe.isSelected()) {
-                            Storage.getInstance().writeObject("idUser", String.valueOf(Session.getUser().getId()));
+                        /*if (rememberMe.isSelected()) {
+                            DataBase db = new DataBase();
+                            db.persist(Session.getUser());
                         } else {
-                            Storage.getInstance().writeObject("idUser", "-1");   
-                        }
+                            System.out.println("dont remember me");
+                        }*/
                         ArticleFormHome afh = new ArticleFormHome();
                         afh.getForm().show();
                     } else {
-                        /*UserFormLogin a = new UserFormLogin(new Label("Error"));
-                        a.getForm().show();*/
+                        UserFormLogin a = new UserFormLogin(new Label("Error"));
+                        a.getForm().show();
                     }
                 }
             }
         });
+
         this.form.add(username);
         this.form.add(password);
         this.form.add(rememberMe);
@@ -71,6 +72,36 @@ public class UserFormLogin {
 
     }
 
+    public UserFormLogin(Label l) {
+        this.form = new Form("Welcome", BoxLayout.y());
+        TextField username = new TextField();
+        username.setHint("username/email");
+        TextField password = new TextField();
+        password.setConstraint(TextField.PASSWORD);
+        password.setHint("Password");
+        Button login = new Button("Login");
+        Label error = new Label("");
+        error.setVisible(false);
+        login.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent evt) {
+                ServiceUser.login(username.getText(), password.getText());
+                if (Session.getUser() != null) {
+                    GalerieFormHome gfh = new GalerieFormHome();
+                    gfh.getForm().show();
+                } else {
+                    UserFormLogin a = new UserFormLogin(new Label("Error"));
+                    a.getForm().show();
+
+                }
+            }
+        });
+
+        this.form.add(username);
+        this.form.add(password);
+        this.form.add(login);
+        this.form.add(l);
+    }
 
     public Form getForm() {
         return form;

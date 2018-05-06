@@ -94,6 +94,7 @@ public class PariPromosportFormHome {
         this.form.add(container_cote);
         this.form.add(container_gain);
         this.form.add(button_valider);
+        this.form.show();
         mise_valeur.addDataChangedListener((i, ii) -> {
             if (isValidInput(mise_valeur.getText())) {
                 mise_valeur.putClientProperty("LastValid", mise_valeur.getText());
