@@ -97,6 +97,16 @@ public class EquipeFantasy {
         this.valeur = valeur;
         this.banque = banque;
     }
+    public EquipeFantasy(String nom, long totalpoints, long classement, User User, int transfers, float valeur, float banque) {
+        
+        this.nom = nom;
+        this.totalpoints = totalpoints;
+        this.classement = classement;
+        this.User = User;
+        this.transfers = transfers;
+        this.valeur = valeur;
+        this.banque = banque;
+    }
     
     public EquipeFantasy(int id, User User, String nom) {
         this.id = id;

@@ -15,6 +15,8 @@ import com.codename1.ui.events.ActionEvent;
 import com.codename1.ui.events.ActionListener;
 import com.codename1.ui.layouts.BoxLayout;
 import com.mycompany.Entite.User;
+import com.mycompany.Service.ServiceEquipeFantasy;
+import com.mycompany.Service.ServiceJoueurFantasy;
 import com.mycompany.Service.ServiceUser;
 import com.mycompany.Utilitaire.Components;
 import com.mycompany.Utilitaire.Session;
@@ -49,10 +51,15 @@ public class UserFormLogin {
 
                     ServiceUser.login(username.getText(), password.getText());
                     if (Session.getUser() != null) {
+                        ServiceEquipeFantasy.getEquipe();
+                        if (Session.getEf() != null) {
+                            ServiceJoueurFantasy.getJoueursByequipe();
+                        }
+
                         if (rememberMe.isSelected()) {
                             Storage.getInstance().writeObject("idUser", String.valueOf(Session.getUser().getId()));
                         } else {
-                            Storage.getInstance().writeObject("idUser", "-1");   
+                            Storage.getInstance().writeObject("idUser", "-1");
                         }
                         ArticleFormHome afh = new ArticleFormHome();
                         afh.getForm().show();
@@ -70,7 +77,6 @@ public class UserFormLogin {
         this.form.add(error);
 
     }
-
 
     public Form getForm() {
         return form;

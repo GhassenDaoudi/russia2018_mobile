@@ -15,6 +15,7 @@ import com.codename1.ui.events.ActionListener;
 import com.codename1.ui.events.DataChangedListener;
 import com.codename1.ui.layouts.BoxLayout;
 import com.mycompany.Entite.Pari;
+import com.mycompany.Utilitaire.Components;
 
 import com.mycompany.Utilitaire.PanierPari;
 import java.text.SimpleDateFormat;
@@ -41,6 +42,7 @@ public class PariModificationFormHome {
     PariModificationFormHome(Form previous, Pari p) {
         List<Pari> pari_remove = new ArrayList<>();
         this.form = new Form(BoxLayout.y());
+        Components.showBack(form, previous);
 
         Label titre = new Label("Match:    " + p.getM().getE1().getNom() + " vs  " + p.getM().getE2().getNom());
         SimpleDateFormat newFormat = new SimpleDateFormat("dd-MM-yyyy");

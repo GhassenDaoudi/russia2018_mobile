@@ -58,16 +58,16 @@ public class CommentaireFormHome {
             commentaires.add(input);
             Button ajouter = new Button("Ajouter un Commentaire");
             commentaires.add(ajouter);
-            ajouter.addPointerPressedListener((e)->{
-                if(!input.getText().equals("")){
-                    ServiceCommentaire.ajouter(Session.getUser(),p,input);
+            ajouter.addPointerPressedListener((e) -> {
+                if (!input.getText().equals("")) {
+                    ServiceCommentaire.ajouter(Session.getUser(), p, input);
                     ToastBar.Status status = ToastBar.getInstance().createStatus();
                     status.setMessage("Commentaire Ajouté");
                     status.setExpires(3000);
                     status.show();
-                    updateCommentaire(commentaires,p);
-                }else{
-                    Dialog.show("Erreur", "Nik Ommek", "ok","cancel");
+                    updateCommentaire(commentaires, p);
+                } else {
+                    Dialog.show("Erreur", "donnée invalide", "Ok", "Cancel");
                 }
             });
         }
@@ -80,7 +80,7 @@ public class CommentaireFormHome {
             System.out.println(c.getDate_creation());
             Calendar cal = Calendar.getInstance();
             cal.setTime(c.getDate_creation());
-            Label l =new Label(((int)cal.get(Calendar.DAY_OF_MONTH)+1)+"/"+((int)cal.get(Calendar.MONTH)+1)+"/"+cal.get(Calendar.YEAR));
+            Label l = new Label(((int) cal.get(Calendar.DAY_OF_MONTH) + 1) + "/" + ((int) cal.get(Calendar.MONTH) + 1) + "/" + cal.get(Calendar.YEAR));
             commentaires.add(l);
             //SimpleDateFormat sfd = new SimpleDateFormat("dd-MM-yyyy HH:mm");
             //sfd.format(c.getDate_creation());

@@ -5,12 +5,14 @@
  */
 package com.mycompany.gui;
 
+import com.codename1.components.ImageViewer;
 import com.codename1.components.SpanButton;
 import com.codename1.components.SpanLabel;
 import com.codename1.components.ToastBar;
 import com.codename1.ui.Button;
 import com.codename1.ui.Component;
 import com.codename1.ui.Container;
+import com.codename1.ui.Dialog;
 import com.codename1.ui.Font;
 import com.codename1.ui.Form;
 import com.codename1.ui.Image;
@@ -21,6 +23,8 @@ import com.codename1.ui.Toolbar;
 import com.codename1.ui.events.ActionListener;
 import com.codename1.ui.layouts.BorderLayout;
 import com.codename1.ui.layouts.BoxLayout;
+import com.codename1.ui.plaf.UIManager;
+import com.codename1.ui.util.Resources;
 import com.mycompany.Entite.Publication;
 import com.mycompany.Entite.User;
 import com.mycompany.Service.ServiceArticle;
@@ -42,10 +46,12 @@ public class ArticleFormHome {
     Toolbar tb;
     Container topBar;
     List<Map> records;
+    Resources theme;
 
     public ArticleFormHome() {
+        theme = UIManager.initFirstTheme("/theme");
+        
         this.form = new Form("Russia 2018", BoxLayout.y());
-
         Container actualite = new Container(new BoxLayout(BoxLayout.Y_AXIS));
         Container twitter = new Container(new BoxLayout(BoxLayout.Y_AXIS));
         Container RSS = new Container(new BoxLayout(BoxLayout.Y_AXIS));
@@ -108,14 +114,15 @@ public class ArticleFormHome {
             } else {
                 text = text.toLowerCase();
                 int i = 0;
-                if (Session.getUser() != null) {
+                if (Session.getUser() != null &&Session.getUser().getRole().equals(User.Role.journaliste)) {
                     i = 1;
                 }
                 for (int j = i; j < actualite.getComponentCount(); j++) {
                     Container c = (Container) actualite.getComponentAt(j);
                     Container ctitre = (Container) c.getComponentAt(0);
                     Label titre = (Label) ctitre.getComponentAt(0);
-                    Label user = (Label) c.getComponentAt(1);
+                    Container  cuser = (Container) c.getComponentAt(1);
+                    Label user = (Label) cuser.getComponentAt(1);
                     SpanLabel desc = (SpanLabel) c.getComponentAt(2);
                     String line1 = titre.getText();
                     String line2 = user.getText();
@@ -146,7 +153,12 @@ public class ArticleFormHome {
         ll.addAll(list);
         Collections.shuffle(ll);
         for (Publication publication : ll) {
-            rsscontainer.addComponent(new SpanLabel(publication.getTitre()));
+            Container containerUserImage = new Container(new BoxLayout(BoxLayout.X_AXIS));
+            SpanLabel titre = new SpanLabel(publication.getTitre());
+            ImageViewer img = new ImageViewer(theme.getImage("RSS_32px.png"));
+            //rsscontainer.addComponent();
+            containerUserImage.add(img).add(titre);
+            rsscontainer.addComponent(containerUserImage);
             SpanLabel d = new SpanLabel(publication.getDescription());
             d.getTextAllStyles().setFont(Font.createSystemFont(Font.FACE_SYSTEM, Font.STYLE_ITALIC, Font.SIZE_MEDIUM));
             rsscontainer.addComponent(d);
@@ -155,7 +167,7 @@ public class ArticleFormHome {
 
     private void updateArticle(Container articleContainer) {
         articleContainer.removeAll();
-        if (Session.getUser() != null &&Session.getUser().getRole().equals(User.Role.journaliste)) {
+        if (Session.getUser() != null && Session.getUser().getRole().equals(User.Role.journaliste)) {
             Container c100 = new Container(new BoxLayout(BoxLayout.Y_AXIS));
             TextField titre = new TextField();
             titre.setHint("titre");
@@ -169,12 +181,13 @@ public class ArticleFormHome {
             ajouter.addPointerPressedListener((e) -> {
                 if (!description.getText().equals("") && !titre.getText().equals("")) {
                     ServiceArticle.ajouter(Session.getUser(), titre.getText(), description.getText());
-                    
                     ToastBar.Status status = ToastBar.getInstance().createStatus();
                     status.setMessage("Article Ajouté");
                     status.setExpires(3000);
                     status.show();
                     updateArticle(articleContainer);
+                }else{
+                    Dialog.show("Erreur", "donnée invalide", "Ok","Cancel");
                 }
             });
         }
@@ -188,9 +201,13 @@ public class ArticleFormHome {
             });
             ctitre.add(BorderLayout.CENTER, titre);
             c1.add(ctitre);
+            Container containerUserImage = new Container(new BoxLayout(BoxLayout.X_AXIS));
+            ImageViewer img = new ImageViewer(theme.getImage("SoccerBall_32px.png"));
             Label user = new Label("@" + p.getUser().getUsername() + ":");
             user.getUnselectedStyle().setFont(Font.createSystemFont(Font.FACE_SYSTEM, Font.STYLE_ITALIC, Font.SIZE_MEDIUM));
-            c1.add(user);
+
+            containerUserImage.add(img).add(user);
+            c1.add(containerUserImage);
             SpanLabel description = new SpanLabel(p.getDescription());
             description.getTextAllStyles().setFont(Font.createSystemFont(Font.FACE_SYSTEM, Font.STYLE_PLAIN, Font.SIZE_SMALL));
             c1.add(description);
@@ -199,19 +216,35 @@ public class ArticleFormHome {
     }
 
     private void updateTwitter(Container twitterContainer) {
+
         twitterContainer.removeAll();
-        for (Publication publication : TwitterAPI.searchtweets("Russia2018", 5)) {
+        List<Publication> t1 = TwitterAPI.searchtweets("russia2018", 5);
+        List<Publication> t2 = TwitterAPI.searchtweets("Russia2018", 5);
+        List<Publication> t3 = TwitterAPI.searchtweets("worldcup2018", 5);
+        List<Publication> t4 = TwitterAPI.searchtweets("Worldcup2018", 5);
+        List<Publication> tww = new ArrayList<>();
+        tww.addAll(t1);
+        tww.addAll(t2);
+        tww.addAll(t3);
+        tww.addAll(t4);
+        Collections.shuffle(tww);
+        for (Publication publication : tww) {
+            ImageViewer img = new ImageViewer(theme.getImage("Twitter_32px.png"));
             Container c1 = new Container(new BoxLayout(BoxLayout.Y_AXIS));
             Container ctitre = new Container(new BorderLayout(BorderLayout.CENTER_BEHAVIOR_CENTER));
-            SpanLabel titre = new SpanLabel("#russia2018");
+            SpanLabel titre = new SpanLabel("#" + publication.getTitre());
             ctitre.add(BorderLayout.CENTER, titre);
             c1.add(ctitre);
+            Container containerUserImage = new Container(new BoxLayout(BoxLayout.X_AXIS));
             Label user = new Label("@" + publication.getUser().getUsername() + ":");
             user.getUnselectedStyle().setFont(Font.createSystemFont(Font.FACE_SYSTEM, Font.STYLE_ITALIC, Font.SIZE_MEDIUM));
-            c1.add(user);
+
+            containerUserImage.add(img).add(user);
+            c1.add(containerUserImage);
             SpanLabel description = new SpanLabel(publication.getDescription());
             description.getTextAllStyles().setFont(Font.createSystemFont(Font.FACE_SYSTEM, Font.STYLE_PLAIN, Font.SIZE_SMALL));
             c1.add(description);
+            
             twitterContainer.add(c1);
         }
     }

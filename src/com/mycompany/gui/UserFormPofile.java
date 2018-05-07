@@ -5,16 +5,21 @@
  */
 package com.mycompany.gui;
 
+import com.codename1.components.ImageViewer;
 import com.codename1.ui.BrowserComponent;
 import com.codename1.ui.Button;
 import com.codename1.ui.Container;
 import com.codename1.ui.Dialog;
 import com.codename1.ui.Display;
+import com.codename1.ui.EncodedImage;
 import com.codename1.ui.Form;
+import com.codename1.ui.Image;
 import com.codename1.ui.Label;
 import com.codename1.ui.TextField;
+import com.codename1.ui.URLImage;
 import com.codename1.ui.events.ActionEvent;
 import com.codename1.ui.events.ActionListener;
+import com.codename1.ui.layouts.BorderLayout;
 import com.codename1.ui.layouts.BoxLayout;
 import com.mycompany.Service.ServiceUser;
 import com.mycompany.Utilitaire.Components;
@@ -33,6 +38,12 @@ public class UserFormPofile {
     public UserFormPofile() {
         this.form = new Form("Votre Profile", BoxLayout.y());
         Components.showHamburger(this.form);
+        EncodedImage placeholder = EncodedImage.createFromImage(Image.createImage(200, 200, 0xffff0000), true);
+        Image i = URLImage.createToStorage(placeholder, Session.getUser().getImage(), "http://localhost/PI/image/" + Session.getUser().getImage(), URLImage.RESIZE_SCALE_TO_FILL);
+        ImageViewer iv = new ImageViewer(i);
+        Container c = new Container(new BorderLayout(BorderLayout.CENTER_BEHAVIOR_CENTER));
+        c.add(BorderLayout.CENTER,iv);
+        this.form.add(c);
         Label nom = new Label("Nom: " + Session.getUser().getNom());
         Label prenom = new Label("Prenom: " + Session.getUser().getPrenom());
         Label username = new Label("Prenom: " + Session.getUser().getUsername());

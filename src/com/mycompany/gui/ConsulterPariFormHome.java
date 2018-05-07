@@ -8,6 +8,7 @@ package com.mycompany.gui;
 import com.codename1.l10n.SimpleDateFormat;
 import com.codename1.ui.Component;
 import com.codename1.ui.Container;
+import com.codename1.ui.Font;
 import com.codename1.ui.Form;
 import com.codename1.ui.Label;
 import com.codename1.ui.layouts.BoxLayout;
@@ -35,29 +36,34 @@ public class ConsulterPariFormHome {
     public ConsulterPariFormHome(Form previous, FichePari fp) {
         this.form = new Form(BoxLayout.y());
         Container container_main = new Container(BoxLayout.y());
-         Components.showBack(this.form, previous);
+        Components.showBack(this.form, previous);
         for (Pari p : ServicePari.getPariparFiche(fp.getId())) {
 
             Label titre = new Label("Match: " + p.getM().getE1().getNom() + "   vs  " + p.getM().getE2().getNom());
             SimpleDateFormat newFormat = new SimpleDateFormat("dd-MM-yyyy");
             Label datematch = new Label("Date :" + String.valueOf(newFormat.format(p.getM().getDate())));
+            datematch.getUnselectedStyle().setFont(Font.createSystemFont(Font.FACE_SYSTEM, Font.STYLE_ITALIC, Font.SIZE_MEDIUM));
+
             container_main.add(titre);
             container_main.add(datematch);
             if (p.getResultat().equals(Pari.ResultatPari.un)) {
                 Label resultat = new Label("Resultat   : " + p.getM().getE1().getNom());
+                resultat.getUnselectedStyle().setFont(Font.createSystemFont(Font.FACE_SYSTEM, Font.STYLE_ITALIC, Font.SIZE_MEDIUM));
+
                 container_main.add(resultat);
-            }
-            else if (p.getResultat().equals(Pari.ResultatPari.x)) {
+            } else if (p.getResultat().equals(Pari.ResultatPari.x)) {
                 Label resultat = new Label("Resultat   : Nul");
+                resultat.getUnselectedStyle().setFont(Font.createSystemFont(Font.FACE_SYSTEM, Font.STYLE_ITALIC, Font.SIZE_MEDIUM));
+
                 container_main.add(resultat);
-            }
-            else if (p.getResultat().equals(Pari.ResultatPari.deux)) {
+            } else if (p.getResultat().equals(Pari.ResultatPari.deux)) {
                 Label resultat = new Label("Resultat   : " + p.getM().getE2().getNom());
+                resultat.getUnselectedStyle().setFont(Font.createSystemFont(Font.FACE_SYSTEM, Font.STYLE_ITALIC, Font.SIZE_MEDIUM));
+
                 container_main.add(resultat);
             }
-            
-           
+
         }
-         this.form.add(container_main);
+        this.form.add(container_main);
     }
 }

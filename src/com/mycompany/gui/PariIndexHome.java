@@ -32,47 +32,48 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
-
+import javafx.scene.layout.Background;
 
 /**
  *
  * @author skanderbejaoui
  */
 public class PariIndexHome {
-
+    
     private Form form;
-
+    
     public Form getForm() {
         return form;
     }
-
+    
     public void setForm(Form form) {
         this.form = form;
     }
-
+    
     public PariIndexHome() {
-
-        this.form = new Form("Parier !",BoxLayout.y());
+        
+        this.form = new Form("Parier !", BoxLayout.y());
+        this.form.setUIID("asfer");
         Components.showHamburger(this.form);
         //ArrayList<Match> matchs = ServicePari.getList();
         EncodedImage placeholder = EncodedImage.createFromImage(Image.createImage(40, 40, 0xffff0000), true);
-         Style s = UIManager.getInstance().getComponentStyle("TitleCommand");
+        Style s = UIManager.getInstance().getComponentStyle("TitleCommand");
         FontImage icon = FontImage.createMaterial(FontImage.MATERIAL_EURO_SYMBOL, s);
-          this.form.getToolbar().addCommandToRightBar("Ma fiche (" + PanierPari.getLp().size() + ")", icon, (e) -> {
-             PariValidationPanierFormHome pvpfh = new PariValidationPanierFormHome(this.form);
-             pvpfh.getForm().show();
-         });
+        this.form.getToolbar().addCommandToRightBar("Ma fiche (" + PanierPari.getLp().size() + ")", icon, (e) -> {
+            PariValidationPanierFormHome pvpfh = new PariValidationPanierFormHome(this.form);
+            pvpfh.getForm().show();
+        });
         for (Map.Entry<Date, List<Match>> entry : ServicePari.getAll().entrySet()) {
-
+            
             SimpleDateFormat newFormat = new SimpleDateFormat("dd-MM-yyyy");
             Label datematch = new Label(String.valueOf(newFormat.format(entry.getKey())));
-              Container container_datematch = new Container();
+            Container container_datematch = new Container();
             container_datematch.setLayout(new BorderLayout(BorderLayout.CENTER_BEHAVIOR_CENTER_ABSOLUTE));
-           container_datematch.add(BorderLayout.CENTER, datematch);
+            container_datematch.add(BorderLayout.CENTER, datematch);
             this.form.add(container_datematch);
             for (Match match : entry.getValue()) {
                 Container container_table = new Container();
-               container_table.setLayout(new BorderLayout(BorderLayout.CENTER_BEHAVIOR_CENTER_ABSOLUTE));
+                container_table.setLayout(new BorderLayout(BorderLayout.CENTER_BEHAVIOR_CENTER_ABSOLUTE));
                 TableModel model = new DefaultTableModel(new String[]{"", "", ""}, new Object[][]{
                     {match.getE1().getDrapeau(), match.getE1().getNom() + "  vs  " + match.getE2().getNom(), match.getE2().getDrapeau()}}) {
                     public boolean isCellEditable(int row, int col) {
@@ -83,22 +84,22 @@ public class PariIndexHome {
                 Table table = new Table(model) {
                     @Override
                     protected Component createCell(Object value, int row, int column, boolean editable) {
-
+                        
                         if (row == -1) {
                             return super.createCell(value, row, column, editable);
                         }
                         if (column == 0) {
                             Image drapeau_gauche = URLImage.createToStorage(placeholder, match.getE1().getDrapeau(), "http://localhost/PI/Flags/" + match.getE1().getDrapeau(), URLImage.RESIZE_SCALE_TO_FILL);
-
+                            
                             ImageViewer i_drapeau_gauche = new ImageViewer(drapeau_gauche);
                             //Container container_drapeau_gauche = new Container();
-                           // container_drapeau_gauche.add( i_drapeau_gauche);
+                            // container_drapeau_gauche.add( i_drapeau_gauche);
                             return i_drapeau_gauche;
                         } else if (column == 2) {
                             Image drapeau_droit = URLImage.createToStorage(placeholder, match.getE2().getDrapeau(), "http://localhost/PI/Flags/" + match.getE2().getDrapeau(), URLImage.RESIZE_SCALE_TO_FILL);
                             ImageViewer i_drapeau_droit = new ImageViewer(drapeau_droit);
-                           // Container container_drapeau_droit = new Container();
-                           // container_drapeau_droit.add( i_drapeau_droit);
+                            // Container container_drapeau_droit = new Container();
+                            // container_drapeau_droit.add( i_drapeau_droit);
 
                             return i_drapeau_droit;
                         } else if (column == 1) {
@@ -112,19 +113,19 @@ public class PariIndexHome {
                             return new Label("");
                         }
                     }
-
+                    
                 };
                 table.setDrawBorder(
                         false);
                 table.setCollapseBorder(true);
                 container_table.add(BorderLayout.CENTER, table);
                 container_table.setWidth(-1);
-                
+                container_table.setUIID("Containert");
                 this.form.add(container_table);
-
+                
             }
-
+            
         }
-       
+        
     }
 }

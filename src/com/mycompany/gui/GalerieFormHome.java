@@ -13,6 +13,7 @@ import com.codename1.ui.BrowserComponent;
 import com.codename1.ui.Button;
 import com.codename1.ui.Component;
 import com.codename1.ui.Container;
+import com.codename1.ui.Dialog;
 import com.codename1.ui.Display;
 import com.codename1.ui.EncodedImage;
 import com.codename1.ui.Form;
@@ -51,8 +52,8 @@ public class GalerieFormHome {
         this.filePath = "";
         this.fileExt = "";
         this.form = new Form("Galerie", BoxLayout.y());
-        
-        Container conatinergal=new Container(new BoxLayout(BoxLayout.Y_AXIS));
+
+        Container conatinergal = new Container(new BoxLayout(BoxLayout.Y_AXIS));
         Components.showHamburger(this.form);
         if (Session.getUser() != null) {
             TextField titre = new TextField();
@@ -81,6 +82,9 @@ public class GalerieFormHome {
                     status.show();
                     updateGalerie(conatinergal);
                     form.revalidate();
+                } else {
+                    Dialog.show("Erreur", "donnée invalide", "Ok", "Cancel");
+
                 }
             });
         }
@@ -97,21 +101,25 @@ public class GalerieFormHome {
                 int i = 0;
                 if (Session.getUser() != null) {
                     i = 1;
+                    Container c = (Container) conatinergal.getComponentAt(i);
+                    c.setVisible(false);
+                    c.setHidden(true);
                 }
-                for (int j=i; j < conatinergal.getComponentCount(); j++) {
-                    Container c =(Container)conatinergal.getComponentAt(j);
-                    SwipeableContainer sc = (SwipeableContainer)c.getComponentAt(0);
-                    Container test3 =(Container)sc.getComponentAt(2);
-                    Container test4 = (Container)test3.getComponentAt(0);
-                    Container test5 = (Container)test4.getComponentAt(0);
-                    Container test6 = (Container)test4.getComponentAt(2);
-                    Label titre = (Label)test5.getComponentAt(0);
-                    SpanLabel desc = (SpanLabel)test6.getComponentAt(0);
+                for (int j = i; j < conatinergal.getComponentCount(); j++) {
+                    Container c = (Container) conatinergal.getComponentAt(j);
+                    SwipeableContainer sc = (SwipeableContainer) c.getComponentAt(0);
+                    Container test3 = (Container) sc.getComponentAt(2);
+                    Container test4 = (Container) test3.getComponentAt(0);
+                    Container test5 = (Container) test4.getComponentAt(0);
+                    Container test6 = (Container) test4.getComponentAt(2);
+                    Label titre = (Label) test5.getComponentAt(0);
+                    SpanLabel desc = (SpanLabel) test6.getComponentAt(0);
                     String line1 = titre.getText();
                     String line2 = desc.getText();
                     boolean show = line1.toLowerCase().contains(text) || line2.toLowerCase().contains(text);
                     c.setHidden(!show);
                     c.setVisible(show);
+                    System.out.println(c.isVisible());
                 }
                 conatinergal.animateLayout(150);
             }
@@ -195,8 +203,8 @@ public class GalerieFormHome {
         this.galerie = ServiceCommentaire.getLikeDislike(this.galerie);
         for (Publication g : this.galerie) {
             Container c = new Container(new BorderLayout(BorderLayout.CENTER_BEHAVIOR_CENTER));
-            
-            c.add(BorderLayout.CENTER,createLikeDislikeWidget(g));
+
+            c.add(BorderLayout.CENTER, createLikeDislikeWidget(g));
             conatinergal.add(c);
         }
     }

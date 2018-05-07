@@ -17,14 +17,18 @@ import com.codename1.ui.Toolbar;
 import com.codename1.ui.layouts.BorderLayout;
 import com.codename1.ui.plaf.UIManager;
 import com.codename1.ui.util.Resources;
+import com.mycompany.Service.ServiceEquipeFantasy;
+import com.mycompany.Service.ServiceJoueurFantasy;
+import com.mycompany.gui.Ajout;
 import com.mycompany.gui.ArticleFormHome;
 import com.mycompany.gui.ChatFormHome;
-import com.mycompany.gui.CountForm;
+import com.mycompany.gui.Choix;
 import com.mycompany.gui.EquipeHome;
 import com.mycompany.gui.GalerieFormHome;
 import com.mycompany.gui.GroupesForm;
 import com.mycompany.gui.HistoriquePariFormHome;
 import com.mycompany.gui.MatchsForm;
+import com.mycompany.gui.MonEquipe;
 import com.mycompany.gui.PHFForm;
 import com.mycompany.gui.PariIndexHome;
 import com.mycompany.gui.PariPromosportFormHome;
@@ -113,6 +117,35 @@ public class Components {
                 ufl.getForm().show();
             });
         } else {
+            if (Session.getEf() == null) {
+                tb.addMaterialCommandToSideMenu("Fantasy League", FontImage.MATERIAL_GAMES, e -> {
+                    InfiniteProgress prog = new InfiniteProgress();
+                    Dialog dlg = prog.showInifiniteBlocking();
+                    Ajout a = new Ajout();
+                    dlg.dispose();
+                    a.getF().show();
+                });
+            } else {
+                if (Session.getJoueurFantasy().size() < 15) {
+                    tb.addMaterialCommandToSideMenu("Fantasy League", FontImage.MATERIAL_GAMES, e -> {
+                        InfiniteProgress prog = new InfiniteProgress();
+                        Dialog dlg = prog.showInifiniteBlocking();
+                        Choix c = new Choix();
+                        dlg.dispose();
+                        c.getF().show();
+                    });
+                } else {
+                    tb.addMaterialCommandToSideMenu("Fantasy League", FontImage.MATERIAL_GAMES, e -> {
+                        InfiniteProgress prog = new InfiniteProgress();
+                        Dialog dlg = prog.showInifiniteBlocking();
+                        MonEquipe me = new MonEquipe();
+                        dlg.dispose();
+                        me.getF().show();
+                    });
+                }
+
+            }
+
             tb.addMaterialCommandToSideMenu("Parier !", FontImage.MATERIAL_EURO_SYMBOL, e -> {
                 InfiniteProgress prog = new InfiniteProgress();
                 Dialog dlg = prog.showInifiniteBlocking();

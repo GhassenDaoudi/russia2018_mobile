@@ -10,6 +10,7 @@ import com.codename1.l10n.SimpleDateFormat;
 import com.codename1.ui.Button;
 import com.codename1.ui.Container;
 import com.codename1.ui.Dialog;
+import com.codename1.ui.Font;
 import com.codename1.ui.Form;
 import com.codename1.ui.Label;
 import com.codename1.ui.RadioButton;
@@ -67,9 +68,14 @@ public class PariValidationPanierFormHome {
             Label titre = new Label("Match: " + pari.getM().getE1().getNom() + "  vs  " + pari.getM().getE2().getNom());
             SimpleDateFormat newFormat = new SimpleDateFormat("dd-MM-yyyy");
             Label datematch = new Label("Date du match: " + String.valueOf(newFormat.format(pari.getM().getDate())));
+            datematch.getUnselectedStyle().setFont(Font.createSystemFont(Font.FACE_SYSTEM, Font.STYLE_ITALIC, Font.SIZE_MEDIUM));
+
             Label misepari = new Label("Mise :" + pari.getMise());
+            misepari.getUnselectedStyle().setFont(Font.createSystemFont(Font.FACE_SYSTEM, Font.STYLE_ITALIC, Font.SIZE_MEDIUM));
             Label cotepari = new Label("Cote :" + pari.getCote());
+            cotepari.getUnselectedStyle().setFont(Font.createSystemFont(Font.FACE_SYSTEM, Font.STYLE_ITALIC, Font.SIZE_MEDIUM));
             Label gainpari = new Label("Gain :" + pari.getGain());
+            gainpari.getUnselectedStyle().setFont(Font.createSystemFont(Font.FACE_SYSTEM, Font.STYLE_ITALIC, Font.SIZE_MEDIUM));
             titre.addPointerPressedListener((evt) -> {
                 PariModificationFormHome pmfh = new PariModificationFormHome(this.form, pari);
                 pmfh.getForm().show();
@@ -78,12 +84,15 @@ public class PariValidationPanierFormHome {
             this.form.add(datematch);
             if (pari.getResultat().equals(Pari.ResultatPari.un)) {
                 Label resultat = new Label("Resultat :  " + pari.getM().getE1().getNom());
+                resultat.getUnselectedStyle().setFont(Font.createSystemFont(Font.FACE_SYSTEM, Font.STYLE_ITALIC, Font.SIZE_MEDIUM));
                 this.form.add(resultat);
             } else if (pari.getResultat().equals(Pari.ResultatPari.deux)) {
                 Label resultat = new Label("Resultat :    " + pari.getM().getE2().getNom());
+                resultat.getUnselectedStyle().setFont(Font.createSystemFont(Font.FACE_SYSTEM, Font.STYLE_ITALIC, Font.SIZE_MEDIUM));
                 this.form.add(resultat);
             } else if (pari.getResultat().equals(Pari.ResultatPari.x)) {
                 Label resultat = new Label("Resultat :   Match Nul");
+                resultat.getUnselectedStyle().setFont(Font.createSystemFont(Font.FACE_SYSTEM, Font.STYLE_ITALIC, Font.SIZE_MEDIUM));
                 this.form.add(resultat);
             }
             this.form.add(misepari);

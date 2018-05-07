@@ -9,9 +9,11 @@ import com.codename1.ui.util.Resources;
 import com.codename1.io.Log;
 import com.codename1.io.Storage;
 import com.codename1.ui.Toolbar;
+import com.mycompany.Service.ServiceEquipeFantasy;
+import com.mycompany.Service.ServiceJoueurFantasy;
 import com.mycompany.Service.ServicePari;
-import com.mycompany.Utilitaire.SMS;
 import com.mycompany.Service.ServiceUser;
+import com.mycompany.Utilitaire.Session;
 import com.mycompany.gui.ArticleFormHome;
 
 /**
@@ -63,6 +65,9 @@ public class MyApplication {
             int test = Integer.parseInt(idUser);
             if(test!=-1){
                 ServiceUser.login(test);
+                ServiceEquipeFantasy.getEquipe();
+                if(Session.getEf()!=null)
+                    ServiceJoueurFantasy.getJoueursByequipe();
             }
         }
         ArticleFormHome cfh = new ArticleFormHome();

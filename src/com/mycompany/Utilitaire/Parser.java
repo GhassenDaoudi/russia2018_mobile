@@ -11,6 +11,7 @@ import com.mycompany.Entite.Abonnement;
 import com.mycompany.Entite.Commentaire;
 import com.mycompany.Entite.Entraineur;
 import com.mycompany.Entite.Equipe;
+import com.mycompany.Entite.EquipeFantasy;
 import com.mycompany.Entite.Groupe;
 import com.mycompany.Entite.Joueur;
 import com.mycompany.Entite.Match;
@@ -108,6 +109,16 @@ public class Parser {
         E.setListe_joueur(liste_joueurs);
         return E ;
     }
+    public static Equipe toEquipe2(Object map) {
+        Equipe e = new Equipe();
+        Map<String, Object> jsonEquipe = (Map<String, Object>) map;
+        float id = Float.parseFloat(jsonEquipe.get("id").toString());
+        e.setId((int) id);
+        e.setNom(jsonEquipe.get("nom").toString());
+        e.setDrapeau(jsonEquipe.get("drapeau").toString());
+        return e;
+
+    }
     private static Equipe toEquipes(Object map) {
         Equipe e = new Equipe();
         Map<String, Object> jsonEquipe = (Map<String, Object>) map;
@@ -184,5 +195,35 @@ public class Parser {
         m.setE2(toEquipes(jsonMatch.get("idEquipe2")));
         return m;
     }
+    public static Joueur toJoueur(Object map) {
+        Joueur j = new Joueur();
+        Map<String, Object> jsonJoueur = (Map<String, Object>) map;
+        float id = Float.parseFloat(jsonJoueur.get("id").toString());
+        j.setId((int) id);
+        j.setEquipe(toEquipe2(jsonJoueur.get("idEquipe")));
+        j.setNom(jsonJoueur.get("nom").toString());
+        j.setPrenom(jsonJoueur.get("prenom").toString());
+        j.setAge((int) Float.parseFloat(jsonJoueur.get("age").toString()));
+        j.setPoste(jsonJoueur.get("poste").toString());
+        j.setNumero((int) Float.parseFloat(jsonJoueur.get("numero").toString()));
+        j.setClub(jsonJoueur.get("club").toString());
+        j.setImage(jsonJoueur.get("image").toString());
+        j.setPosteF(Joueur.posteF.valueOf(jsonJoueur.get("postef").toString()));
+        j.setPrix(Float.parseFloat(jsonJoueur.get("prix").toString()));
+        return j;
 
+    }
+
+    public static EquipeFantasy toEquipeFantasy(Object map) {
+        EquipeFantasy ef = new EquipeFantasy();
+        Map<String, Object> jsonEF = (Map<String, Object>) map;
+        ef.setNom(jsonEF.get("nom").toString());
+        ef.setId((int)Float.parseFloat(jsonEF.get("id").toString()));
+        ef.setClassement((int)Float.parseFloat(jsonEF.get("totalpoints").toString()));
+        ef.setTransfers((int)Float.parseFloat(jsonEF.get("classement").toString()));
+        ef.setValeur(Float.parseFloat(jsonEF.get("transfers").toString()));
+        ef.setBanque(Float.parseFloat(jsonEF.get("banque").toString()));
+        ef.setUser(toUser(jsonEF.get("idUser")));
+        return ef;
+    }
 }
