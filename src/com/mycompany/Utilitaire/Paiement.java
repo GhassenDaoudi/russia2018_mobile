@@ -17,7 +17,7 @@ public class Paiement {
         PaydunyaSetup setup = new PaydunyaSetup();
         PaydunyaCheckoutStore store = new PaydunyaCheckoutStore();
         setup.setMasterKey("GRPkpNLh-ekmy-LBGP-8Oin-qINqVjofG2dY");
-        setup.setPrivateKey("test_private_eH8PPZlIKJx8LIczQbUeRJGywYy");
+        setup.setPrivateKey("private");
         setup.setPublicKey("test_public_njs3rf9kLkrm8G1mlwGHoHuiKau");
         setup.setToken("E44uqdyTo49rw0Fkx86Q");
         setup.setMode("test");
